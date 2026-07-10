@@ -55,7 +55,7 @@ input[type=number].spinbox-field, input[type=text].spinbox-field {
     cursor: pointer;
     background-color: var(--base-color-secondary);
     user-select: none;
-    transition: background-color 0.25s ease;
+    transition: background-color var(--fade);
 
     &:hover {
         background-color: var(--base-color-primary);
