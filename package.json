@@ -4,6 +4,18 @@
 	"private": true,
 	"type": "module",
 	"description": "UI toolkit / helpers for web projects",
+	"exports": {
+		"./package.json": "./package.json",
+		"./css/*": "./css/*",
+		"./assets/*": "./assets/*",
+		"./util/drag-drop": "./util/drag-drop.tsx",
+		"./util/typed-events": "./util/typed-events.js",
+		"./util/*": "./util/*.ts",
+		"./*": "./components/*/*.tsx"
+	},
+	"sideEffects": [
+		"**/*.css"
+	],
 	"license": "CC0-1.0",
 	"scripts": {
 		"lint": "eslint",
