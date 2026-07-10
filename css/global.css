@@ -1,103 +1,112 @@
-html, body {
-    width: 100%;
-    height: 100%;
-}
+/* Global element defaults. These live in the `valadaptive.base` cascade
+ * layer, the lowest-priority layer of this library: they lose to the shared
+ * widget classes in css/shared.module.css (`valadaptive.shared`) and to any
+ * unlayered rule. */
 
-body {
-    margin: 0;
-    background-color: var(--base-color-primary);
-    color: var(--text);
-    scrollbar-color: var(--interactive-normal) var(--base-color-primary);
+@layer valadaptive.base, valadaptive.shared;
 
-    & ::-webkit-scrollbar {
+@layer valadaptive.base {
+    html, body {
+        width: 100%;
+        height: 100%;
+    }
+
+    body {
+        margin: 0;
         background-color: var(--base-color-primary);
+        color: var(--text);
+        scrollbar-color: var(--interactive-normal) var(--base-color-primary);
+
+        & ::-webkit-scrollbar {
+            background-color: var(--base-color-primary);
+        }
+
+        & ::-webkit-scrollbar-thumb {
+            background-color: var(--base-color-tertiary);
+        }
     }
 
-    & ::-webkit-scrollbar-thumb {
+    ::selection {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    body, button, input, select {
+        font-family: Inter, sans-serif;
+        font-feature-settings: 'ss07', 'ss08', 'cv10';
+        line-height: 1.75rem;
+    }
+
+    .tabular-nums {
+        font-feature-settings: 'ss07', 'ss08', 'cv10', 'tnum';
+    }
+
+    /* Mirrors .textbox in shared.module.css; keep the two in sync. */
+    input[type=text], input[type=password], textarea, select {
         background-color: var(--base-color-tertiary);
-    }
-}
+        outline: 1px solid var(--interactive-normal);
+        border: none;
+        border-radius: 4px;
+        color: var(--text);
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: var(--textbox-padding-y) var(--textbox-padding-x);
+        box-sizing: content-box;
 
-::selection {
-    background-color: var(--primary);
-    color: white;
-}
+        &:focus-within {
+            outline: 2px solid var(--interactive-active);
+        }
 
-body, button, input, select {
-    font-family: Inter, sans-serif;
-    font-feature-settings: 'ss07', 'ss08', 'cv10';
-    line-height: 1.75rem;
-}
-
-.tabular-nums {
-    font-feature-settings: 'ss07', 'ss08', 'cv10', 'tnum';
-}
-
-/* Mirrors .textbox in textbox.module.css; keep the two in sync. */
-input[type=text], input[type=password], textarea, select {
-    background-color: var(--base-color-tertiary);
-    outline: 1px solid var(--interactive-normal);
-    border: none;
-    border-radius: 4px;
-    color: var(--text);
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: var(--textbox-padding-y) var(--textbox-padding-x);
-    box-sizing: content-box;
-
-    &:focus-within {
-        outline: 2px solid var(--interactive-active);
+        &:disabled, &.disabled {
+            cursor: not-allowed;
+            color: var(--interactive-muted);
+            outline-color: var(--interactive-muted);
+        }
     }
 
-    &:disabled, &.disabled {
-        cursor: not-allowed;
-        color: var(--interactive-muted);
-        outline-color: var(--interactive-muted);
+    input[type=checkbox] {
+        accent-color: var(--interactive-active);
     }
-}
 
-input[type=checkbox] {
-    accent-color: var(--interactive-active);
-}
-
-textarea {
-    resize: none;
-    margin: 0;
-    font-family: Inter, sans-serif;
-}
-
-a {
-    text-decoration: none;
-    color: var(--link);
-
-    &:hover {
-        cursor: pointer;
-        text-decoration: underline;
+    textarea {
+        resize: none;
+        margin: 0;
+        font-family: Inter, sans-serif;
     }
-}
 
-progress[value] {
-    appearance: none;
-    border-radius: 50rem;
-    height: 1rem;
-    border: 1px solid var(--divider);
-    overflow: hidden;
-    background-color: var(--base-color-tertiary);
+    a {
+        text-decoration: none;
+        color: var(--link);
 
-    &::-webkit-progress-bar {
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+
+    progress[value] {
+        appearance: none;
+        border-radius: 50rem;
+        height: 1rem;
+        border: 1px solid var(--divider);
+        overflow: hidden;
         background-color: var(--base-color-tertiary);
-    }
 
-    &::-webkit-progress-value {
-        background-color: var(--primary-light);
-        border-top-right-radius: 50rem;
-        border-bottom-right-radius: 50rem;
-    }
+        &::-webkit-progress-bar {
+            background-color: var(--base-color-tertiary);
+        }
 
-    &::-moz-progress-bar {
-        background-color: var(--primary-light);
-        border-radius: 0;
-        border-top-right-radius: 50rem;
-        border-bottom-right-radius: 50rem;
+        &::-webkit-progress-value {
+            background-color: var(--primary-light);
+            border-top-right-radius: 50rem;
+            border-bottom-right-radius: 50rem;
+        }
+
+        &::-moz-progress-bar {
+            background-color: var(--primary-light);
+            border-radius: 0;
+            border-top-right-radius: 50rem;
+            border-bottom-right-radius: 50rem;
+        }
     }
 }

@@ -1,3 +1,5 @@
+@layer valadaptive.base, valadaptive.shared;
+
 .icon {
     width: 24px;
     height: 24px;
@@ -52,9 +54,6 @@
     --icon-button-active: var(--interactive-active);
     --icon-button-disabled: var(--interactive-muted);
 
-    /* Mirrors .button-reset in css/shared.module.css (this stylesheet isn't a
-     * CSS module, so it can't use composes); keep the two in sync. color is
-     * covered by this rule's own declaration below. */
     border: none;
     margin: 0;
     padding: 0;
