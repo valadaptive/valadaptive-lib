@@ -1,5 +1,6 @@
 .icon-button {
     composes: button-reset from '../../css/shared.module.css';
+    transition: background-color var(--fade), color var(--fade);
     padding: 0.25rem;
     cursor: pointer;
     display: flex;

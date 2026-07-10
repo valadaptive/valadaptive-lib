@@ -6,7 +6,6 @@
     --button-bg-disabled: var(--primary-muted);
 
     flex: 0 0 auto;
-    border: none;
     border-radius: var(--corner-radius);
     cursor: pointer;
     font-size: 90%;
@@ -18,9 +17,6 @@
     transition: background-color var(--fade), color var(--fade);
 
     display: inline-flex;
-    margin: 0;
-    line-height: 1;
-    appearance: none;
 
     background-color: var(--button-bg);
     color: white;

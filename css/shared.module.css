@@ -12,7 +12,6 @@
  * components/Icon/style.css mirrors these declarations, since that stylesheet
  * isn't a CSS module. */
 .button-reset {
-    display: inline-block;
     border: none;
     margin: 0;
     padding: 0;

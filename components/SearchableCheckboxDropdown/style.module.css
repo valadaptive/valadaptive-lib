@@ -9,7 +9,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--textbox-padding-y) var(--textbox-padding-x);
     cursor: pointer;
     text-align: left;
     box-sizing: border-box;

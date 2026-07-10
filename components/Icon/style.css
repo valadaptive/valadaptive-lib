@@ -53,9 +53,8 @@
     --icon-button-disabled: var(--interactive-muted);
 
     /* Mirrors .button-reset in css/shared.module.css (this stylesheet isn't a
-     * CSS module, so it can't use composes); keep the two in sync. color and
-     * transition are covered by this rule's own declarations below. */
-    display: inline-block;
+     * CSS module, so it can't use composes); keep the two in sync. color is
+     * covered by this rule's own declaration below. */
     border: none;
     margin: 0;
     padding: 0;
