@@ -1,0 +1,49 @@
+@use '../../css/mixins' as mixins;
+
+.button {
+    flex: 0 0 auto;
+    border: none;
+    border-radius: var(--corner-radius);
+    color: white;
+    cursor: pointer;
+    font-size: 90%;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    height: 2rem;
+    box-sizing: border-box;
+
+    @include mixins.fade(background-color, color);
+
+    display: inline-flex;
+    margin: 0;
+    line-height: 1;
+    appearance: none;
+
+    color: var(--text);
+
+    @include mixins.button-color(var(--primary), var(--primary-hover), var(--primary-active), var(--primary-muted), white);
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+
+    &.green {
+        @include mixins.button-color(var(--green), var(--green-hover), var(--green-active), var(--green-muted), white);
+    }
+
+    &.yellow {
+        @include mixins.button-color(var(--yellow), var(--yellow-hover), var(--yellow-active), var(--yellow-muted), white);
+    }
+
+    &.red {
+        @include mixins.button-color(var(--red), var(--red-hover), var(--red-active), var(--red-muted), white);
+    }
+}
+
+.button-contents {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    gap: 0.25rem;
+}

@@ -1,0 +1,35 @@
+.select-wrapper {
+    position: relative;
+    --arrow-color: var(--interactive-normal);
+
+    &.disabled {
+        --arrow-color: var(--interactive-muted);
+    }
+
+    &::after {
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        background-color: var(--arrow-color);
+        mask: url('../../assets/icons/select-arrow.svg');
+
+        position: absolute;
+        top: calc(50% - 12px);
+        right: 0.325rem;
+
+        content: '';
+        pointer-events: none;
+    }
+}
+
+.select {
+    appearance: none;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding-right: calc(24px + 0.5rem);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

@@ -1,0 +1,96 @@
+@use '../../css/mixins' as mixins;
+
+.searchable-dropdown-wrapper {
+    position: relative;
+}
+
+.searchable-dropdown-button {
+    @include mixins.textbox();
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: mixins.$textbox-padding-y mixins.$textbox-padding-x;
+    cursor: pointer;
+    text-align: left;
+    box-sizing: border-box;
+
+    &.open {
+        border-color: var(--primary);
+    }
+}
+
+.searchable-dropdown-button-text {
+    flex: 1;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 0.5rem;
+}
+
+.searchable-dropdown-arrow {
+    flex-shrink: 0;
+}
+
+.searchable-dropdown-panel {
+    position: absolute;
+    background: var(--base-color-secondary);
+    border: 1px solid var(--divider);
+    border-radius: var(--corner-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchable-dropdown-search {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--divider);
+    box-sizing: border-box;
+    flex: 0 0 auto;
+}
+
+.searchable-dropdown-search-input {
+    @include mixins.textbox();
+    width: 100%;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    box-sizing: border-box;
+}
+
+.searchable-dropdown-options {
+    overflow-y: auto;
+    font-size: 0.875rem;
+}
+
+.searchable-dropdown-option {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:hover {
+        background: var(--toggle-hover);
+    }
+}
+
+.searchable-dropdown-checkbox {
+    margin-right: 0.5rem;
+    cursor: pointer;
+    flex: 0 0 auto;
+}
+
+.searchable-dropdown-option-text {
+    flex: 1;
+    color: var(--text);
+}
+
+.searchable-dropdown-no-results {
+    padding: 0.75rem;
+    text-align: center;
+    color: var(--text-detail);
+    font-style: italic;
+}

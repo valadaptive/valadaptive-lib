@@ -1,7 +1,7 @@
 import style from './style.module.scss';
 
 import {ComponentChildren, FunctionComponent, createContext} from 'preact';
-import {Signal, signal, useComputed, useSignal} from '@preact/signals';
+import {Signal, useComputed, useSignal} from '@preact/signals';
 import {useCallback, useContext, useLayoutEffect, useRef, useState} from 'preact/hooks';
 import classNames from 'clsx';
 
@@ -185,8 +185,6 @@ export const ToastProvider = ({children}: {children?: ComponentChildren}) => {
             ref = elem;
         };
 
-        const transformOffset = signal(0);
-
         const closeToast = () => {
             toastsSignal.value = toastsSignal.value.update(toasts => {
                 const toastIndex = toasts.indexOf(box);
@@ -231,7 +229,6 @@ export const ToastProvider = ({children}: {children?: ComponentChildren}) => {
             >
                 {typeof ToastContents === 'function' ? <ToastContents closeToast={closeToast} /> : ToastContents}
             </Toast>,
-            transformOffset,
         };
 
         toastsSignal.value = toastsSignal.value.update(toasts => {

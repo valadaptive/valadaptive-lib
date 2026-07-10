@@ -68,13 +68,3 @@
         --divider: #afa8a2;
     }
 }
-
-@mixin bg-fade {
-    transition: background-color 0.25s ease;
-}
-
-@mixin fade($props...) {
-    transition-property: $props;
-    transition-duration: 0.175s;
-    transition-timing-function: ease;
-}

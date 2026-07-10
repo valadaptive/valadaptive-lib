@@ -1,25 +1,7 @@
-@use './theme.scss';
-
-@mixin button-color($normal, $hover, $active, $disabled, $text) {
-    background-color: $normal;
-    color: $text;
-
-    &:hover {
-        background-color: $hover;
-    }
-
-    &:active {
-        background-color: $active;
-    }
-
-    &:disabled {
-        background-color: $disabled;
-        color: rgba(255, 255, 255, 0.5);
-    }
-}
+@use './mixins' as mixins;
 
 button {
-    @include theme.fade(background-color, color);
+    @include mixins.fade(background-color, color);
 
     display: inline-block;
     border: none;

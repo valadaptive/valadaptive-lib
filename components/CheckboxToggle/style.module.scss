@@ -1,0 +1,8 @@
+.checkbox-toggle {
+    display: inline-flex;
+    align-items: center;
+
+    &.disabled {
+        color: var(--interactive-normal);
+    }
+}

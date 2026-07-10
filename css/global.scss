@@ -1,4 +1,4 @@
-$font: Inter, sans-serif;
+@use './mixins' as mixins;
 
 html, body {
     width: 100%;
@@ -26,47 +26,17 @@ body {
 }
 
 body, button, input, select {
-    font-family: $font;
+    font-family: mixins.$font;
     font-feature-settings: 'ss07', 'ss08', 'cv10';
     line-height: 1.75rem;
 }
 
-@mixin tabular-nums {
-    font-feature-settings: 'ss07', 'ss08', 'cv10', 'tnum';
-}
-
 .tabular-nums {
-    @include tabular-nums();
-}
-
-$textbox-padding-x: 0.5rem;
-$textbox-padding-y: 0;
-
-
-@mixin textbox {
-    background-color: var(--base-color-tertiary);
-    outline: 1px solid var(--interactive-normal);
-    border: none;
-    border-radius: 4px;
-    color: var(--text);
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: $textbox-padding-y $textbox-padding-x;
-    box-sizing: content-box;
-
-    &:focus-within {
-        outline: 2px solid var(--interactive-active);
-    }
-
-    &:disabled, &.disabled {
-        cursor: not-allowed;
-        color: var(--interactive-muted);
-        outline-color: var(--interactive-muted);
-    }
+    @include mixins.tabular-nums();
 }
 
 input[type=text], input[type=password], textarea, select {
-    @include textbox();
+    @include mixins.textbox();
 }
 
 input[type=checkbox] {
@@ -76,7 +46,7 @@ input[type=checkbox] {
 textarea {
     resize: none;
     margin: 0;
-    font-family: $font;
+    font-family: mixins.$font;
 }
 
 a {
