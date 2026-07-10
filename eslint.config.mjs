@@ -14,6 +14,7 @@ export default tseslint.config(
         languageOptions: {
             parserOptions: {
                 project: 'tsconfig.json',
+                tsconfigRootDir: new URL('.', import.meta.url).pathname,
             },
             globals: {
                 ...globals.browser,
