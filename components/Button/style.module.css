@@ -1,4 +1,5 @@
 .button {
+    composes: button-reset from '../../css/shared.module.css';
     --button-bg: var(--primary);
     --button-bg-hover: var(--primary-hover);
     --button-bg-active: var(--primary-active);

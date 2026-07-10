@@ -52,6 +52,18 @@
     --icon-button-active: var(--interactive-active);
     --icon-button-disabled: var(--interactive-muted);
 
+    /* Mirrors .button-reset in css/shared.module.css (this stylesheet isn't a
+     * CSS module, so it can't use composes); keep the two in sync. color and
+     * transition are covered by this rule's own declarations below. */
+    display: inline-block;
+    border: none;
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1;
+    background: transparent;
+    appearance: none;
+
     width: 24px;
     height: 24px;
     cursor: pointer;

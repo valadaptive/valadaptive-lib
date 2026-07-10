@@ -3,7 +3,8 @@
 }
 
 .searchable-dropdown-button {
-    composes: textbox from '../../css/textbox.module.css';
+    composes: button-reset from '../../css/shared.module.css';
+    composes: textbox from '../../css/shared.module.css';
     width: 100%;
     display: flex;
     align-items: center;
@@ -50,7 +51,7 @@
 }
 
 .searchable-dropdown-search-input {
-    composes: textbox from '../../css/textbox.module.css';
+    composes: textbox from '../../css/shared.module.css';
     width: 100%;
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;

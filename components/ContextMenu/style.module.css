@@ -15,6 +15,7 @@
 }
 
 .context-menu-item {
+    composes: button-reset from '../../css/shared.module.css';
     appearance: none;
     display: flex;
     align-items: center;

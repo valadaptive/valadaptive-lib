@@ -1,4 +1,5 @@
 .collapsible-header-title {
+    composes: button-reset from '../../css/shared.module.css';
     display: flex;
     align-items: center;
     cursor: pointer;

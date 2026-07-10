@@ -1,9 +1,9 @@
 .disabled {
-    composes: disabled from '../../css/textbox.module.css';
+    composes: disabled from '../../css/shared.module.css';
 }
 
 .spinbox-wrapper {
-    composes: textbox from '../../css/textbox.module.css';
+    composes: textbox from '../../css/shared.module.css';
     --padding-right: var(--textbox-padding-x);
     --border-color: var(--interactive-normal);
     padding: 0;
@@ -51,6 +51,7 @@ input[type=number].spinbox-field, input[type=text].spinbox-field {
 }
 
 .spinbox-button {
+    composes: button-reset from '../../css/shared.module.css';
     flex: 1 1 auto;
     cursor: pointer;
     background-color: var(--base-color-secondary);

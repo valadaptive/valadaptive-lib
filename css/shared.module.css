@@ -1,0 +1,49 @@
+/* Shared building-block classes for widgets; pull them into a component class
+ * with e.g. `composes: textbox from '../../css/shared.module.css';`.
+ *
+ * Rule order in this file matters: a class that composes both button-reset and
+ * textbox gets textbox's declarations winning any conflicts (background,
+ * font-size) because .textbox appears later. Keeping both rules in one file is
+ * what makes that ordering reliable — the relative order of separate CSS files
+ * in the final bundle depends on overall import order. */
+
+/* Undoes the browser's default <button> styling. Compose this into the class
+ * of every <button> a widget renders. The .icon-button rule in
+ * components/Icon/style.css mirrors these declarations, since that stylesheet
+ * isn't a CSS module. */
+.button-reset {
+    display: inline-block;
+    border: none;
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1;
+    background: transparent;
+    appearance: none;
+    color: var(--text);
+}
+
+/* Shared textbox appearance. The bare input/textarea/select styling in
+ * global.css mirrors these declarations, since element selectors can't
+ * compose a module class. */
+.textbox {
+    background-color: var(--base-color-tertiary);
+    outline: 1px solid var(--interactive-normal);
+    border: none;
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: var(--textbox-padding-y) var(--textbox-padding-x);
+    box-sizing: content-box;
+
+    &:focus-within {
+        outline: 2px solid var(--interactive-active);
+    }
+
+    &:disabled, &.disabled {
+        cursor: not-allowed;
+        color: var(--interactive-muted);
+        outline-color: var(--interactive-muted);
+    }
+}
