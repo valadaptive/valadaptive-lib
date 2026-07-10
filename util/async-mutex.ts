@@ -1,4 +1,7 @@
-export default class Queuetex<T> {
+/**
+ * A simple async mutex implementation that allows you to queue up async operations on a shared resource.
+ */
+export default class AsyncMutex<T> {
     private inner: T;
     private queue: Promise<unknown>;
     constructor(inner: T) {
