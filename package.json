@@ -4,6 +4,7 @@
 	"private": true,
 	"type": "module",
 	"description": "UI toolkit / helpers for web projects",
+	"license": "CC0-1.0",
 	"scripts": {
 		"lint": "eslint",
 		"typecheck": "tsc --noEmit"
