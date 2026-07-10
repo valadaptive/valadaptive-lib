@@ -1,4 +1,4 @@
-import style from './style.module.scss';
+import style from './style.module.css';
 
 import type {TargetedEvent} from 'preact';
 import {useCallback, useId} from 'preact/hooks';

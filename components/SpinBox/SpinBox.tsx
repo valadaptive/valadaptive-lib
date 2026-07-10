@@ -1,4 +1,4 @@
-import style from './style.module.scss';
+import style from './style.module.css';
 
 import type {JSX, TargetedEvent} from 'preact';
 import {useCallback, useEffect, useId, useRef} from 'preact/hooks';

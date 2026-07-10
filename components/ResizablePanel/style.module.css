@@ -78,28 +78,32 @@
 
 @media (hover: none) {
     .resizable-panel.leftEdge {
+        padding-left: calc(var(--splitter-size));
+
         & > .splitter {
             left: 0;
         }
-        padding-left: calc(var(--splitter-size));
     }
     .resizable-panel.rightEdge {
+        padding-right: calc(var(--splitter-size));
+
         & > .splitter {
             right: 0;
         }
-        padding-right: calc(var(--splitter-size));
     }
     .resizable-panel.topEdge {
+        padding-top: calc(var(--splitter-size));
+
         & > .splitter {
             top: 0;
         }
-        padding-top: calc(var(--splitter-size));
     }
     .resizable-panel.bottomEdge {
+        padding-bottom: calc(var(--splitter-size));
+
         & > .splitter {
             bottom: 0;
         }
-        padding-bottom: calc(var(--splitter-size));
     }
 
     .splitter {

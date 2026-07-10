@@ -1,12 +1,14 @@
-@use '../../css/mixins' as mixins;
+.disabled {
+    composes: disabled from '../../css/textbox.module.css';
+}
 
 .spinbox-wrapper {
-    @include mixins.textbox();
-    --padding-right: #{mixins.$textbox-padding-x};
+    composes: textbox from '../../css/textbox.module.css';
+    --padding-right: var(--textbox-padding-x);
+    --border-color: var(--interactive-normal);
     padding: 0;
     display: flex;
     overflow: hidden;
-    --border-color: var(--interactive-normal);
 
     &.disabled {
         --border-color: var(--interactive-muted);
@@ -17,8 +19,8 @@ input[type=number].spinbox-field, input[type=text].spinbox-field {
     appearance: textfield;
     flex: 1 1 0;
     min-width: 0;
-    padding: mixins.$textbox-padding-y 0;
-    text-indent: mixins.$textbox-padding-x;
+    padding: var(--textbox-padding-y) 0;
+    text-indent: var(--textbox-padding-x);
     background: none;
     border: none;
     margin: 0;
@@ -52,6 +54,8 @@ input[type=number].spinbox-field, input[type=text].spinbox-field {
     flex: 1 1 auto;
     cursor: pointer;
     background-color: var(--base-color-secondary);
+    user-select: none;
+    transition: background-color 0.25s ease;
 
     &:hover {
         background-color: var(--base-color-primary);
@@ -60,9 +64,6 @@ input[type=number].spinbox-field, input[type=text].spinbox-field {
     &:active {
         background-color: var(--base-color-tertiary);
     }
-    user-select: none;
-
-    @include mixins.bg-fade();
 }
 
 .spinbox-button-divider {

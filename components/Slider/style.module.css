@@ -1,0 +1,103 @@
+/* Adapted from css-tricks:
+ * https://css-tricks.com/sliding-nightmare-understanding-range-input/
+ *
+ * Constants used throughout: track width 12.5em, track height 8px, thumb
+ * diameter 16px. The track/thumb/fill styles are duplicated per vendor
+ * pseudo-element because an unrecognized selector anywhere in a selector list
+ * invalidates the entire rule, so they can't be combined. */
+
+.slider[type='range'] {
+    --range: calc(var(--max) - var(--min));
+    --ratio: calc((var(--val) - var(--min))/var(--range));
+    --sx: calc(.5*16px + var(--ratio)*(100% - 16px));
+
+    --track-c: var(--interactive-muted);
+    --fill-c: var(--interactive-active);
+    --thumb-c: var(--base-color-tertiary);
+
+    --track-w: auto;
+    --track-h: 8px;
+
+    touch-action: none;
+    margin: 0;
+    padding: 0;
+    width: 12.5em;
+    height: 1rem;
+    /* Blink's slider CSS sets the min-height of an untargetable <div> if the slider has a <datalist>, so we need to
+       ensure it's centered in that case */
+    display: flex;
+    align-items: center;
+    background: transparent;
+
+    &:disabled {
+        --fill-c: var(--interactive-muted);
+    }
+
+    &.vertical {
+        writing-mode: vertical-lr;
+        direction: rtl;
+        width: 16px;
+        height: 12.5em;
+        --track-h: auto;
+        --track-w: 8px;
+
+        &::-webkit-slider-runnable-track {
+            background: linear-gradient(var(--fill-c), var(--fill-c))
+                0 100% / 100% var(--sx) no-repeat var(--track-c);
+        }
+
+        &::-webkit-slider-thumb {
+            margin-top: 0;
+            margin-left: -4px; /* (track height - thumb diameter) / 2 */
+        }
+    }
+
+    &::-webkit-slider-runnable-track {
+        box-sizing: border-box;
+        border: none;
+        width: var(--track-w);
+        height: var(--track-h);
+        background: linear-gradient(var(--fill-c), var(--fill-c))
+            0/ var(--sx) 100% no-repeat var(--track-c);
+        border-radius: 8px;
+    }
+
+    &::-moz-range-track {
+        box-sizing: border-box;
+        border: none;
+        width: var(--track-w);
+        height: var(--track-h);
+        background: var(--track-c);
+        border-radius: 8px;
+    }
+
+    &::-moz-range-progress {
+        width: var(--track-w);
+        height: var(--track-h);
+        background: var(--fill-c);
+        border-radius: 8px;
+    }
+
+    &::-webkit-slider-thumb {
+        margin-top: -4px; /* (track height - thumb diameter) / 2 */
+        box-sizing: border-box;
+        border: 2px solid var(--fill-c);
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--thumb-c);
+    }
+
+    &::-moz-range-thumb {
+        box-sizing: border-box;
+        border: 2px solid var(--fill-c);
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--thumb-c);
+    }
+
+    &, &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+    }
+}

@@ -1,5 +1,5 @@
 import type {JSX, ComponentChildren} from 'preact';
-import style from './style.module.scss';
+import style from './style.module.css';
 import classnames from 'clsx';
 import Icon, {IconButton, IconType} from '../Icon/Icon';
 import {useId} from 'preact/hooks';

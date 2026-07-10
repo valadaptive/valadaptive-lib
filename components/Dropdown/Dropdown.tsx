@@ -1,4 +1,4 @@
-import style from './style.module.scss';
+import style from './style.module.css';
 
 import type {JSX} from 'preact';
 import {useCallback} from 'preact/hooks';

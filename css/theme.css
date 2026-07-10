@@ -43,6 +43,9 @@
 
     --pane-padding: 1rem;
     --corner-radius: 0.25rem;
+
+    --textbox-padding-x: 0.5rem;
+    --textbox-padding-y: 0px;
 }
 
 @media(prefers-color-scheme: light) {

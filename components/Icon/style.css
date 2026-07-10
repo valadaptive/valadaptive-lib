@@ -1,0 +1,248 @@
+.icon {
+    width: 24px;
+    height: 24px;
+    background-color: currentColor;
+    display: inline-block;
+    mask-size: cover;
+    flex: 0 0 auto;
+
+    &.motif-monochrome {
+        color: var(--interactive-normal);
+    }
+
+    &.motif-primary {
+        background-color: var(--primary-lighter);
+    }
+
+    &.motif-success {
+        background-color: var(--green);
+    }
+
+    &.motif-warning {
+        background-color: var(--yellow);
+    }
+
+    &.motif-error {
+        background-color: var(--red);
+    }
+
+    &.icon-clickable {
+        transition: opacity 0.175s ease;
+
+        &:hover {
+            opacity: 0.875;
+        }
+
+        &:active {
+            opacity: 0.75;
+        }
+
+        &.icon-disabled {
+            opacity: 0.5;
+        }
+    }
+}
+
+:root {
+    --icon-button-color: var(--interactive-normal);
+}
+
+.icon-button {
+    --icon-button-hover: var(--interactive-hover);
+    --icon-button-active: var(--interactive-active);
+    --icon-button-disabled: var(--interactive-muted);
+
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    color: var(--icon-button-color);
+    transition: color 0.175s ease, opacity 0.175s ease;
+
+    &:hover {
+        color: var(--icon-button-hover);
+    }
+
+    &:active {
+        color: var(--icon-button-active);
+    }
+
+    &.motif-monochrome {
+        --icon-button-hover: currentColor;
+        --icon-button-active: currentColor;
+        --icon-button-disabled: currentColor;
+
+        &:hover {
+            opacity: 0.875;
+        }
+
+        &:active {
+            opacity: 0.75;
+        }
+
+        &.icon-disabled {
+            opacity: 0.5;
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--text);
+        border-radius: var(--corner-radius);
+    }
+
+    &.icon-disabled {
+        color: var(--icon-button-disabled);
+        cursor: not-allowed;
+    }
+
+    & .icon {
+        pointer-events: none;
+    }
+}
+
+.icon-arrow-right {
+    transform: rotate(-90deg);
+}
+
+.icon-arrow-up {
+    transform: rotate(180deg);
+}
+
+.icon-arrow-left {
+    transform: rotate(90deg);
+}
+
+.icon-arrow-right, .icon-arrow-down, .icon-arrow-up, .icon-arrow-left {
+    mask-image: url('../../assets/icons/arrow-down.svg');
+    transition: transform 0.175s ease;
+}
+
+/* Keep these written out as plain CSS rules: the bundler inlines each SVG as
+ * a URL-encoded data: URI, so one stylesheet holding all of them loads in a
+ * single request and compresses well. */
+.icon-arrow-down {
+    mask-image: url('../../assets/icons/arrow-down.svg');
+}
+
+.icon-cancel {
+    mask-image: url('../../assets/icons/cancel.svg');
+}
+
+.icon-check {
+    mask-image: url('../../assets/icons/check.svg');
+}
+
+.icon-close {
+    mask-image: url('../../assets/icons/close.svg');
+}
+
+.icon-copy {
+    mask-image: url('../../assets/icons/copy.svg');
+}
+
+.icon-download {
+    mask-image: url('../../assets/icons/download.svg');
+}
+
+.icon-edit {
+    mask-image: url('../../assets/icons/edit.svg');
+}
+
+.icon-effect {
+    mask-image: url('../../assets/icons/effect.svg');
+}
+
+.icon-error {
+    mask-image: url('../../assets/icons/error.svg');
+}
+
+.icon-file {
+    mask-image: url('../../assets/icons/file.svg');
+}
+
+.icon-folder {
+    mask-image: url('../../assets/icons/folder.svg');
+}
+
+.icon-funnel {
+    mask-image: url('../../assets/icons/funnel.svg');
+}
+
+.icon-gear {
+    mask-image: url('../../assets/icons/gear.svg');
+}
+
+.icon-github {
+    mask-image: url('../../assets/icons/github.svg');
+}
+
+.icon-globe {
+    mask-image: url('../../assets/icons/globe.svg');
+}
+
+.icon-link {
+    mask-image: url('../../assets/icons/link.svg');
+}
+
+.icon-menu {
+    mask-image: url('../../assets/icons/menu.svg');
+}
+
+.icon-paste {
+    mask-image: url('../../assets/icons/paste.svg');
+}
+
+.icon-pause {
+    mask-image: url('../../assets/icons/pause.svg');
+}
+
+.icon-play {
+    mask-image: url('../../assets/icons/play.svg');
+}
+
+.icon-pin {
+    mask-image: url('../../assets/icons/pin.svg');
+}
+
+.icon-plus {
+    mask-image: url('../../assets/icons/plus.svg');
+}
+
+.icon-range {
+    mask-image: url('../../assets/icons/range.svg');
+}
+
+.icon-redo {
+    mask-image: url('../../assets/icons/redo.svg');
+}
+
+.icon-reset {
+    mask-image: url('../../assets/icons/reset.svg');
+}
+
+.icon-search {
+    mask-image: url('../../assets/icons/search.svg');
+}
+
+.icon-speaker {
+    mask-image: url('../../assets/icons/speaker.svg');
+}
+
+.icon-speaker-mute {
+    mask-image: url('../../assets/icons/speaker-mute.svg');
+}
+
+.icon-stack {
+    mask-image: url('../../assets/icons/stack.svg');
+}
+
+.icon-undo {
+    mask-image: url('../../assets/icons/undo.svg');
+}
+
+.icon-upload {
+    mask-image: url('../../assets/icons/upload.svg');
+}
+
+.icon-warning {
+    mask-image: url('../../assets/icons/warning.svg');
+}

@@ -1,7 +1,5 @@
-@use './mixins' as mixins;
-
 button {
-    @include mixins.fade(background-color, color);
+    transition: background-color 0.175s ease, color 0.175s ease;
 
     display: inline-block;
     border: none;

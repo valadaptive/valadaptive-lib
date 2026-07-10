@@ -1,5 +1,3 @@
-@use '../../css/mixins' as mixins;
-
 .context-menu-backdrop {
     position: fixed;
     inset: 0;
@@ -28,7 +26,7 @@
     color: var(--text);
     font-weight: normal;
     cursor: pointer;
-    @include mixins.bg-fade;
+    transition: background-color 0.25s ease;
     text-align: left;
 
     &:hover:not(:disabled) {

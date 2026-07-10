@@ -1,0 +1,26 @@
+/* Shared textbox appearance; pull it into a component class with
+ * `composes: textbox from '../../css/textbox.module.css';`.
+ * The bare input/textarea/select styling in global.css mirrors these
+ * declarations, since element selectors can't compose a module class. */
+
+.textbox {
+    background-color: var(--base-color-tertiary);
+    outline: 1px solid var(--interactive-normal);
+    border: none;
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: var(--textbox-padding-y) var(--textbox-padding-x);
+    box-sizing: content-box;
+
+    &:focus-within {
+        outline: 2px solid var(--interactive-active);
+    }
+
+    &:disabled, &.disabled {
+        cursor: not-allowed;
+        color: var(--interactive-muted);
+        outline-color: var(--interactive-muted);
+    }
+}

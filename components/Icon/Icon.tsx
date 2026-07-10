@@ -1,4 +1,4 @@
-import './style.scss';
+import './style.css';
 
 import type {JSX, Ref} from 'preact';
 import classNames from 'clsx';

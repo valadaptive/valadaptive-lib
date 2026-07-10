@@ -1,4 +1,4 @@
-import style from './style.module.scss';
+import style from './style.module.css';
 
 import type {AnchorHTMLAttributes, ButtonHTMLAttributes, ComponentChildren} from 'preact';
 import classNames from 'clsx';

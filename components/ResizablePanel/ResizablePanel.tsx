@@ -1,5 +1,5 @@
 import {ComponentChildren} from 'preact';
-import style from './style.module.scss';
+import style from './style.module.css';
 import classNames from 'clsx';
 import {Signal, useSignal} from '@preact/signals';
 import {useCallback, useRef} from 'preact/hooks';

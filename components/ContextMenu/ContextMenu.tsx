@@ -1,4 +1,4 @@
-import style from './style.module.scss';
+import style from './style.module.css';
 
 import {createContext, h, type ComponentChildren, type JSX} from 'preact';
 import {useCallback, useContext, useEffect, useLayoutEffect, useMemo} from 'preact/hooks';

@@ -1,4 +1,4 @@
-import style from './style.module.scss';
+import style from './style.module.css';
 
 import {ComponentChildren, FunctionComponent, createContext} from 'preact';
 import {Signal, useComputed, useSignal} from '@preact/signals';
