@@ -1,5 +1,5 @@
 button {
-    transition: background-color 0.175s ease, color 0.175s ease;
+    transition: background-color var(--fade), color var(--fade);
 
     display: inline-block;
     border: none;

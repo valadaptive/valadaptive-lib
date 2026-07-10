@@ -46,6 +46,8 @@
 
     --textbox-padding-x: 0.5rem;
     --textbox-padding-y: 0px;
+
+    --fade: 0.175s ease;
 }
 
 @media(prefers-color-scheme: light) {

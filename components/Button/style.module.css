@@ -14,7 +14,7 @@
     height: 2rem;
     box-sizing: border-box;
 
-    transition: background-color 0.175s ease, color 0.175s ease;
+    transition: background-color var(--fade), color var(--fade);
 
     display: inline-flex;
     margin: 0;
