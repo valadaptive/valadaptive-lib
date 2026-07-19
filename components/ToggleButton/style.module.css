@@ -15,6 +15,12 @@
     }
 }
 
+/* .toggledOn repurposes `outline` as a border, which would otherwise hide the
+ * browser's focus ring entirely; restore a visible keyboard focus indicator. */
+.icon-button:focus-visible {
+    outline: 2px solid var(--text);
+}
+
 .toggle-icon:disabled {
     color: var(--interactive-muted);
     cursor: not-allowed;

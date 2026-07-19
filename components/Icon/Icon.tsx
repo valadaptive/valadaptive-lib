@@ -55,6 +55,9 @@ const Icon = ({type, title, size, motif, className, clickableStyle}: {
         width: cssSize,
         height: cssSize,
     } : undefined;
+    // The icon is just a mask-image on a div, so it's invisible to assistive technology unless
+    // we give it an explicit role and label. An icon without a title is decorative; hide it.
+    const hasLabel = typeof title === 'string' && title !== '';
     return (
         <div
             className={classNames(
@@ -72,6 +75,9 @@ const Icon = ({type, title, size, motif, className, clickableStyle}: {
             )}
             style={inlineStyle}
             title={title ?? undefined}
+            role={hasLabel ? 'img' : undefined}
+            aria-label={hasLabel ? title : undefined}
+            aria-hidden={hasLabel ? undefined : true}
         />
     );
 };
@@ -115,9 +121,10 @@ export const IconButton = ({
             )}
             onClick={disabled ? undefined : onClick}
             onMouseDown={disabled ? undefined : onMouseDown}
+            role="button"
             title={title}
+            aria-label={title}
             disabled={disabled}
-            tabIndex={0}
             ref={innerRef}
         >
             <Icon

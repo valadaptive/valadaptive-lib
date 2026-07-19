@@ -124,6 +124,11 @@
 .icon-arrow-right, .icon-arrow-down, .icon-arrow-up, .icon-arrow-left {
     mask-image: url('../../assets/icons/arrow-down.svg');
     transition: transform var(--fade);
+
+    @media (prefers-reduced-motion: reduce) {
+        /* Snap between orientations instead of turning */
+        transition: none;
+    }
 }
 
 /* Keep these written out as plain CSS rules: the bundler inlines each SVG as

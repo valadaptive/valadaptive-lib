@@ -2,14 +2,14 @@ import style from './style.module.css';
 
 import {ComponentChildren, FunctionComponent, createContext} from 'preact';
 import {Signal, useComputed, useSignal} from '@preact/signals';
-import {useCallback, useContext, useLayoutEffect, useRef, useState} from 'preact/hooks';
+import {useCallback, useContext, useLayoutEffect, useRef} from 'preact/hooks';
 import classNames from 'clsx';
 
 import FakeImmutable from '../../util/fake-immutable';
 import {Motif} from '../../util/motif';
 
-import {Overlay} from '../Overlay/Overlay';
 import Icon, {IconButton} from '../Icon/Icon';
+import {Overlay} from '../Overlay/Overlay';
 
 type ToastInnerComponent = FunctionComponent<{
     closeToast: () => void;
@@ -60,14 +60,21 @@ const Toast = ({children, toastRef, closeToast, showCloseButton, timeout, motif 
         }
     }, []);
 
+    // Announce toasts to screen readers when they appear; errors interrupt, the rest wait their turn
+    const isUrgent = motif === Motif.ERROR || motif === Motif.WARNING;
+
     return (
         <div className={style.toastWrapper} ref={toastRef}>
-            <div className={classNames(style.toast, {
-                [style.primary]: motif === Motif.PRIMARY,
-                [style.success]: motif === Motif.SUCCESS,
-                [style.warning]: motif === Motif.WARNING,
-                [style.error]: motif === Motif.ERROR,
-            })}>
+            <div
+                role={isUrgent ? 'alert' : 'status'}
+                aria-live={isUrgent ? 'assertive' : 'polite'}
+                className={classNames(style.toast, {
+                    [style.primary]: motif === Motif.PRIMARY,
+                    [style.success]: motif === Motif.SUCCESS,
+                    [style.warning]: motif === Motif.WARNING,
+                    [style.error]: motif === Motif.ERROR,
+                })}
+            >
                 <div className={style.toastRow}>
                     {motif === Motif.PRIMARY ?
                         null :
@@ -152,24 +159,21 @@ export const useAddErrorToast = () => {
     }, []);
 };
 
-const ToastPlaceholder = ({height: initialHeight, onTransitionEnd}: {height: number; onTransitionEnd: () => void}) => {
-    const [height, setHeight] = useState(`${initialHeight}px`);
-    const node = useRef<HTMLDivElement>(null);
-
-    useLayoutEffect(() => {
-        // Force reflow to start the animation and then immediately set height to 0 so it transitions properly
-        void node.current?.scrollTop;
-        setHeight('0');
+const ToastPlaceholder = ({height, onCollapsed}: {height: number; onCollapsed: () => void}) => {
+    const collapse = useCallback((node: HTMLDivElement | null) => {
+        if (!node) return;
+        // Unlike a CSS transition, the animation's finished promise settles even with a duration
+        // of 0, so reduced motion can collapse instantly without breaking the cleanup
+        const duration = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 175;
+        void node.animate(
+            {minHeight: [`${height}px`, '0px']},
+            {duration, easing: 'ease-out'},
+        ).finished.then(onCollapsed, () => {
+            // Canceled (e.g. the whole toast display unmounted); nothing to clean up
+        });
     }, []);
 
-    return (
-        <div
-            className={style.toastPlaceholder}
-            style={{minHeight: height}}
-            onTransitionEnd={onTransitionEnd}
-            ref={node}
-        />
-    );
+    return <div className={style.toastPlaceholder} ref={collapse} />;
 };
 
 export const ToastProvider = ({children}: {children?: ComponentChildren}) => {
@@ -192,10 +196,10 @@ export const ToastProvider = ({children}: {children?: ComponentChildren}) => {
 
                 const removedHeight = ref?.getBoundingClientRect()?.height ?? 0;
 
-                const onTransitionEnd = () => {
+                const onCollapsed = () => {
                     toastsSignal.value = toastsSignal.value.update(toasts => {
                         // We need to calculate the index again as an earlier toast could've been removed during the
-                        // transition.
+                        // collapse animation.
                         const toastIndex = toasts.indexOf(box);
                         if (toastIndex === -1) return;
                         toasts.splice(toastIndex, 1);
@@ -206,7 +210,7 @@ export const ToastProvider = ({children}: {children?: ComponentChildren}) => {
                 const toastPlaceholder = <ToastPlaceholder
                     key={id}
                     height={removedHeight}
-                    onTransitionEnd={onTransitionEnd}
+                    onCollapsed={onCollapsed}
                 />;
                 toasts[toastIndex].inner = toastPlaceholder;
 

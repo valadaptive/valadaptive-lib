@@ -1,34 +1,39 @@
-const Loader = ({progress, size = 100, className}: {progress?: number; size?: number; className?: string}) => {
+import style from './style.module.css';
+
+const Loader = ({progress, size = 100, className, label = 'Loading'}: {
+    progress?: number;
+    size?: number;
+    className?: string;
+    /** Accessible name announced for the loader. */
+    label?: string;
+}) => {
     const STROKE_WIDTH = Math.min(size / 10, 10);
     const radius = (size - STROKE_WIDTH) * 0.5;
-    const circumference = 2 * Math.PI * radius;
 
+    // Dash values are in pathLength="100" units, i.e. percentages of the circumference
     let dashArray, dashOffset;
     if (typeof progress === 'number') {
         progress = Math.max(0, Math.min(1, progress));
-        dashArray = circumference;
-        dashOffset = circumference - (progress * circumference);
+        dashArray = 100;
+        dashOffset = 100 - (progress * 100);
     } else {
-        dashArray = circumference / 2;
+        dashArray = 50;
         dashOffset = 0;
     }
 
-    const spinnerStyle = typeof progress !== 'number' ? {
-        animation: 'spin 1.5s linear infinite',
-    } : undefined;
-
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" className={className} width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-            <style>{`
-                @keyframes spin {
-                    from {
-                        stroke-dashoffset: ${circumference};
-                    }
-                    to {
-                        stroke-dashoffset: 0;
-                    }
-                }
-            `}</style>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+            width={size}
+            height={size}
+            viewBox={`0 0 ${size} ${size}`}
+            role="progressbar"
+            aria-label={label}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={typeof progress === 'number' ? Math.round(progress * 100) : undefined}
+        >
             {typeof progress === 'number' && size >= 64 &&
                 <text
                     x="50%"
@@ -49,12 +54,13 @@ const Loader = ({progress, size = 100, className}: {progress?: number; size?: nu
                 cx="50%"
                 cy="50%"
                 r={radius}
+                pathLength={100}
                 stroke-width={STROKE_WIDTH}
                 stroke="currentColor"
                 fill="none"
                 stroke-dasharray={dashArray}
                 stroke-dashoffset={dashOffset}
-                style={spinnerStyle}
+                className={typeof progress !== 'number' ? style.spinner : undefined}
             />
         </svg>
     );

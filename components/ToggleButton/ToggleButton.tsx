@@ -28,14 +28,14 @@ export const ToggleIcon = ({type, title, toggled, disabled, innerRef, className}
                 disabled && style.disabled,
             )}
             onClick={handleClick}
-            role="checkbox"
-            aria-checked={toggled.value}
+            role="button"
+            aria-pressed={toggled.value}
             title={title}
+            aria-label={title}
             ref={innerRef}
-            tabindex={0}
             disabled={disabled}
         >
-            <Icon type={type} title={title} />
+            <Icon type={type} title={null} />
         </button>
     );
 };
@@ -59,10 +59,10 @@ export const SelectableButton = <T, >({children, title, currentValue, value, dis
                 {[style.toggledOn]: currentValue.value === value},
             )}
             onClick={handleClick}
-            role="radio"
-            aria-checked={currentValue.value === value}
+            role="button"
+            aria-pressed={currentValue.value === value}
             title={title}
-            tabindex={0}
+            aria-label={title}
             disabled={disabled}
         >
             {children}

@@ -1,8 +1,8 @@
+/* Toasts paint above modals (10) and context menus (20). */
 .toast-container {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset: 0 0 auto 0;
+    z-index: 30;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,6 +47,10 @@
     overflow-wrap: break-word;
 
     animation: pop-in 0.25s;
+
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+    }
 
     &.success {
         background-color: var(--green);
@@ -110,9 +114,9 @@
     }
 }
 
+/* Collapsed via the Web Animations API in ToastPlaceholder */
 .toast-placeholder {
     visibility: hidden;
-    transition: min-height 0.175s ease-out;
 }
 
 .error-message {

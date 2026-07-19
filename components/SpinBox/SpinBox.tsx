@@ -199,6 +199,19 @@ export const ImperativeSpinBox = ({
         window.addEventListener('pointerup', onUp);
     }, [min, max, sensitivity, step, smartAim, onInput, currentValue, disabled]);
 
+    // A customDisplay spinbox renders as type="text", which loses the native number input's
+    // arrow-key stepping; reimplement it (the spinbutton role promises these keys work).
+    const handleKeyDown = useCallback((event: TargetedEvent<HTMLInputElement, KeyboardEvent>) => {
+        if (!customDisplay || disabled) return;
+        if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            increment();
+        } else if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            decrement();
+        }
+    }, [customDisplay, disabled, increment, decrement]);
+
     const handleFocus = useCallback(() => {
         if (disabled) return;
         isEditing.value = true;
@@ -243,29 +256,35 @@ export const ImperativeSpinBox = ({
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 onPointerDown={handlePointerDown}
+                onKeyDown={handleKeyDown}
                 aria-labelledby={labelledBy}
+                role={customDisplay ? 'spinbutton' : undefined}
+                aria-valuenow={customDisplay ? value : undefined}
+                aria-valuetext={customDisplay ? customDisplay.display(value) : undefined}
+                aria-valuemin={customDisplay ? min : undefined}
+                aria-valuemax={customDisplay ? max : undefined}
             />
             <div className={style.spinboxButtons}>
                 <button
                     onClick={increment}
                     disabled={disabled || (value === max)}
                     className={style.spinboxButton}
-                    role="button"
+                    type="button"
                     aria-controls={inputId ?? spinboxId}
                     aria-label="Increment"
                 >
-                    <div className={style.spinboxUp} />
+                    <div className={style.spinboxUp} aria-hidden="true" />
                 </button>
                 <div className={style.spinboxButtonDivider} />
                 <button
                     onClick={decrement}
                     disabled={disabled || (value === min)}
                     className={style.spinboxButton}
-                    role="button"
+                    type="button"
                     aria-controls={inputId ?? spinboxId}
                     aria-label="Decrement"
                 >
-                    <div className={style.spinboxDown} />
+                    <div className={style.spinboxDown} aria-hidden="true" />
                 </button>
             </div>
         </div>
