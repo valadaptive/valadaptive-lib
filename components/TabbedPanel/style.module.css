@@ -19,29 +19,21 @@
 }
 
 .tab {
-    composes: button-reset from '../../css/shared.module.css';
-    font-size: 1rem;
-    line-height: 1.75rem;
+    display: flex;
+    align-items: center;
     transition: background-color var(--fade), border-color var(--fade);
     background-clip: padding-box;
 
-    padding: 0.325rem 0.75rem;
     border-top-left-radius: var(--corner-radius);
     border-top-right-radius: var(--corner-radius);
-    cursor: pointer;
     border: 1px solid transparent;
     margin-bottom: -1px;
 
-    &:hover:not(:disabled) {
+    &:hover:not(.disabled) {
         background-color: var(--toggle-hover);
     }
 
-    &:focus-visible {
-        outline: 2px solid var(--text);
-        outline-offset: -2px;
-    }
-
-    &.disabled {
+    &.disabled .tab-button {
         color: var(--interactive-muted);
         cursor: not-allowed;
     }
@@ -51,6 +43,27 @@
         border: 1px solid var(--divider);
         border-bottom-color: var(--base-color-primary);
     }
+}
+
+.tab-button {
+    composes: button-reset from '../../css/shared.module.css';
+    font-size: 1rem;
+    line-height: 1.75rem;
+    color: inherit;
+    padding: 0.325rem 0.75rem;
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: 2px solid var(--text);
+        outline-offset: -2px;
+    }
+}
+
+.tab-actions {
+    display: flex;
+    align-items: center;
+    margin-left: -0.5rem;
+    padding-right: 0.5rem;
 }
 
 .auxiliary-items {

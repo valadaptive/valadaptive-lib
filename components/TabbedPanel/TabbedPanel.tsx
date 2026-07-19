@@ -1,30 +1,30 @@
 import style from './style.module.css';
 
 import type {ComponentChild} from 'preact';
-import {useSignal} from '@preact/signals';
+import type {Signal} from '@preact/signals';
 import {useCallback, useId, useMemo} from 'preact/hooks';
 import classNames from 'clsx';
 
 import {navigateGroup} from '../../util/group-navigation';
 
-type Tab = {
+export type Tab = {
     id: string,
     panel: ComponentChild | (() => ComponentChild) | null,
     title: ComponentChild,
+    actions?: ComponentChild,
     disabled?: boolean
 };
 
 type TabbedPanelProps<T extends readonly Tab[]> = {
     tabs: T,
-    initialTab: T[number]['id'] | null,
+    activeTabID: Signal<T[number]['id'] | null>,
     className?: string,
     auxiliaryItems?: ComponentChild,
 };
 
 const isTabDisabled = (tab: Tab): boolean => tab.panel === null || !!tab.disabled;
 
-const TabbedPanel = <T extends readonly Tab[]>({tabs, initialTab, className, auxiliaryItems}: TabbedPanelProps<T>) => {
-    const activeTabID = useSignal(initialTab);
+const TabbedPanel = <T extends readonly Tab[]>({tabs, activeTabID, className, auxiliaryItems}: TabbedPanelProps<T>) => {
     const idPrefix = useId();
 
     const activeTab = useMemo(() => {
@@ -60,34 +60,45 @@ const TabbedPanel = <T extends readonly Tab[]>({tabs, initialTab, className, aux
                         {auxiliaryItems}
                     </div>
                 )}
-                <div className={style.tabList} role="tablist" onKeyDown={handleKeyDown}>
+                <div className={style.tabList} role="tablist">
                     {tabs.map(tab => {
                         const disabled = isTabDisabled(tab);
                         const active = activeTabID.value === tab.id;
                         return (
-                            <button
+                            <div
                                 key={tab.id}
-                                id={tabElemId(tab.id)}
-                                type="button"
-                                role="tab"
-                                aria-selected={active}
-                                aria-controls={panelElemId}
-                                disabled={disabled}
-                                tabIndex={active || (activeTabID.value === null && tab.id === firstEnabledTabID) ?
-                                    0 :
-                                    -1}
+                                role="presentation"
                                 className={classNames({
                                     [style.tab]: true,
                                     [style.activeTab]: active,
                                     [style.disabled]: disabled,
                                 })}
-                                onClick={() => {
-                                    if (disabled) return;
-                                    activeTabID.value = tab.id;
-                                }}
                             >
-                                {tab.title}
-                            </button>
+                                <button
+                                    id={tabElemId(tab.id)}
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={active}
+                                    aria-controls={panelElemId}
+                                    disabled={disabled}
+                                    tabIndex={active || (activeTabID.value === null && tab.id === firstEnabledTabID) ?
+                                        0 :
+                                        -1}
+                                    className={style.tabButton}
+                                    onKeyDown={handleKeyDown}
+                                    onClick={() => {
+                                        if (disabled) return;
+                                        activeTabID.value = tab.id;
+                                    }}
+                                >
+                                    {tab.title}
+                                </button>
+                                {tab.actions && (
+                                    <div className={style.tabActions}>
+                                        {tab.actions}
+                                    </div>
+                                )}
+                            </div>
                         );
                     })}
                 </div>
