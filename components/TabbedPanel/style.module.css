@@ -16,10 +16,20 @@
 .tab-list {
     display: flex;
     gap: 0.5rem;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    /* A scrolling box clips in both axes. Give tab borders room to paint inside the
+     * clip edge, while cancelling that room in layout so the tabs stay aligned with
+     * the strip's divider. */
+    padding-block: 1px;
+    margin-block: -1px;
 }
 
 .tab {
     display: flex;
+    flex: 0 0 auto;
     align-items: center;
     transition: background-color var(--fade), border-color var(--fade);
     background-clip: padding-box;
@@ -52,6 +62,7 @@
     color: inherit;
     padding: 0.325rem 0.75rem;
     cursor: pointer;
+    white-space: nowrap;
 
     &:focus-visible {
         outline: 2px solid var(--text);
