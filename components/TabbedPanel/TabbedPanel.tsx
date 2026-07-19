@@ -1,8 +1,8 @@
 import style from './style.module.css';
 
 import type {ComponentChild} from 'preact';
-import {useSignal, useComputed} from '@preact/signals';
-import {useCallback, useId} from 'preact/hooks';
+import {useSignal} from '@preact/signals';
+import {useCallback, useId, useMemo} from 'preact/hooks';
 import classNames from 'clsx';
 
 import {navigateGroup} from '../../util/group-navigation';
@@ -27,15 +27,9 @@ const TabbedPanel = <T extends readonly Tab[]>({tabs, initialTab, className, aux
     const activeTabID = useSignal(initialTab);
     const idPrefix = useId();
 
-    const tabsByID = useComputed(() => {
-        const tabsRecord: Record<string, Tab> = {};
-        for (const tab of tabs) {
-            tabsRecord[tab.id] = tab;
-        }
-        return tabsRecord;
-    });
-
-    const activeTab = activeTabID.value ? tabsByID.value[activeTabID.value] : null;
+    const activeTab = useMemo(() => {
+        return tabs.find(tab => tab.id === activeTabID.value);
+    }, [tabs, activeTabID.value]);
     const tabPanel = activeTab?.panel;
 
     const tabElemId = (tabId: string) => `${idPrefix}-tab-${tabId}`;
