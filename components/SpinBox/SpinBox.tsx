@@ -17,6 +17,7 @@ export const SpinBox = ({
     className,
     inputId,
     width,
+    'aria-label': label,
     'aria-labelledby': labelledBy,
 }: {
     value: Signal<number>;
@@ -30,6 +31,7 @@ export const SpinBox = ({
     className?: string;
     inputId?: string;
     width?: number;
+    'aria-label'?: string;
     'aria-labelledby'?: string;
 }): JSX.Element => {
     const handleInput = useCallback((newValue: number) => {
@@ -49,6 +51,7 @@ export const SpinBox = ({
         className={className}
         inputId={inputId}
         width={width}
+        aria-label={label}
         aria-labelledby={labelledBy}
     />;
 };
@@ -58,9 +61,29 @@ export type SpinBoxDisplayFuncs = {
     parse: (value: string) => number | null,
 };
 
-export const ImperativeSpinBox = ({
+type ImperativeSpinBoxProps<T extends number | null> = {
+    value: T;
+    onInput: (value: number | T) => unknown;
+    nullable?: T extends null ? true : false;
+    customDisplay?: SpinBoxDisplayFuncs;
+    min?: number;
+    max?: number;
+    sensitivity?: number;
+    step?: number | 'any';
+    smartAim?: number;
+    disabled?: boolean;
+    className?: string;
+    inputId?: string;
+    width?: number;
+    placeholder?: number;
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
+};
+
+export const ImperativeSpinBox = <T extends number | null>({
     value,
     onInput,
+    nullable,
     customDisplay,
     min,
     max,
@@ -71,26 +94,18 @@ export const ImperativeSpinBox = ({
     className,
     inputId,
     width,
+    placeholder,
+    'aria-label': label,
     'aria-labelledby': labelledBy,
-}: {
-    value: number;
-    onInput: (value: number) => unknown,
-    customDisplay?: SpinBoxDisplayFuncs,
-    min?: number;
-    max?: number;
-    sensitivity?: number;
-    step?: number | 'any';
-    smartAim?: number;
-    disabled?: boolean;
-    className?: string;
-    inputId?: string;
-    width?: number;
-    'aria-labelledby'?: string;
-}): JSX.Element => {
-    const currentValue = useRef(value);
+}: ImperativeSpinBoxProps<T>): JSX.Element => {
+    const currentValue = useRef<number | T>(value);
     currentValue.current = value;
 
     const handleInput = useCallback((event: TargetedEvent<HTMLInputElement, InputEvent>) => {
+        if (nullable && event.currentTarget.value === '') {
+            onInput(null as T);
+            return;
+        }
         let newValue = customDisplay ?
             customDisplay.parse(event.currentTarget.value) :
             Number(event.currentTarget.value);
@@ -98,16 +113,16 @@ export const ImperativeSpinBox = ({
         if (typeof min === 'number') newValue = Math.max(min, newValue);
         if (typeof max === 'number') newValue = Math.min(max, newValue);
         onInput(newValue);
-    }, [currentValue, customDisplay?.parse, min, max, onInput]);
+    }, [nullable, customDisplay?.parse, min, max, onInput]);
 
     const increment = useCallback(() => {
-        let incremented = currentValue.current + (step === 'any' ? 1 : step);
+        let incremented = (currentValue.current ?? min ?? 0) + (step === 'any' ? 1 : step);
         if (typeof max === 'number') incremented = Math.min(incremented, max);
         onInput(incremented);
-    }, [currentValue, max, step, onInput]);
+    }, [currentValue, max, min, step, onInput]);
 
     const decrement = useCallback(() => {
-        let decremented = currentValue.current - (step === 'any' ? 1 : step);
+        let decremented = (currentValue.current ?? min ?? 0) - (step === 'any' ? 1 : step);
         if (typeof min === 'number') decremented = Math.max(decremented, min);
         onInput(decremented);
     }, [currentValue, min, step, onInput]);
@@ -142,7 +157,7 @@ export const ImperativeSpinBox = ({
         // Don't count up/down drags if the cursor is inside the spinbox
         const target = event.currentTarget;
         const deadZone = target.getBoundingClientRect();
-        const valueStart = currentValue.current;
+        const valueStart = currentValue.current ?? placeholder ?? min ?? 0;
 
         const onMove = (event: PointerEvent) => {
             let mouseDelta = 0;
@@ -197,7 +212,7 @@ export const ImperativeSpinBox = ({
 
         window.addEventListener('pointermove', onMove);
         window.addEventListener('pointerup', onUp);
-    }, [min, max, sensitivity, step, smartAim, onInput, currentValue, disabled]);
+    }, [min, max, placeholder, sensitivity, step, smartAim, onInput, currentValue, disabled]);
 
     // A customDisplay spinbox renders as type="text", which loses the native number input's
     // arrow-key stepping; reimplement it (the spinbutton role promises these keys work).
@@ -220,6 +235,7 @@ export const ImperativeSpinBox = ({
         isEditing.value = false;
         // Ensure the value is clamped to min/max when editing ends
         let clampedValue = currentValue.current;
+        if (clampedValue === null) return;
         if (typeof max === 'number') clampedValue = Math.min(clampedValue, max);
         if (typeof min === 'number') clampedValue = Math.max(clampedValue, min);
         onInput(clampedValue);
@@ -249,7 +265,12 @@ export const ImperativeSpinBox = ({
                 min={min}
                 max={max}
                 step={step}
-                value={customDisplay ? customDisplay.display(value) : Number(value.toPrecision(12))}
+                value={value === null ? '' : customDisplay ?
+                    customDisplay.display(value) :
+                    Number(value.toPrecision(12))}
+                placeholder={typeof placeholder === 'undefined' ? '' : customDisplay ?
+                    customDisplay.display(placeholder) :
+                    String(Number(placeholder.toPrecision(12)))}
                 disabled={disabled}
                 onInput={handleInput}
                 id={inputId ?? spinboxId}
@@ -257,10 +278,11 @@ export const ImperativeSpinBox = ({
                 onBlur={handleBlur}
                 onPointerDown={handlePointerDown}
                 onKeyDown={handleKeyDown}
+                aria-label={label}
                 aria-labelledby={labelledBy}
                 role={customDisplay ? 'spinbutton' : undefined}
-                aria-valuenow={customDisplay ? value : undefined}
-                aria-valuetext={customDisplay ? customDisplay.display(value) : undefined}
+                aria-valuenow={customDisplay && value !== null ? value : undefined}
+                aria-valuetext={customDisplay && value !== null ? customDisplay.display(value) : undefined}
                 aria-valuemin={customDisplay ? min : undefined}
                 aria-valuemax={customDisplay ? max : undefined}
             />

@@ -21,8 +21,14 @@
         align-self: center;
     }
 
-    &:hover::after {
+    &:hover::after,
+    &:focus-visible::after {
         background-color: var(--interactive-hover);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--interactive-active);
+        outline-offset: -2px;
     }
 }
 

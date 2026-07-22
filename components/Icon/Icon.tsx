@@ -107,6 +107,7 @@ export const IconButton = ({
 }): JSX.Element => {
     return (
         <button
+            type="button"
             className={classNames(
                 'icon-button',
                 {

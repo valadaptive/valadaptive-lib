@@ -15,6 +15,7 @@ export const Slider = ({
     vertical,
     className,
     id,
+    'aria-label': label,
     'aria-labelledby': labelledBy,
 }: {
     value: Signal<number>;
@@ -26,6 +27,7 @@ export const Slider = ({
     vertical?: boolean;
     className?: string;
     id?: string;
+    'aria-label'?: string;
     'aria-labelledby'?: string,
 }): JSX.Element => {
     const handleInput = useCallback((event: TargetedEvent<HTMLInputElement, InputEvent>) => {
@@ -44,6 +46,7 @@ export const Slider = ({
         vertical={vertical}
         className={className}
         id={id}
+        aria-label={label}
         aria-labelledby={labelledBy}
     />;
 };
@@ -61,6 +64,7 @@ export const ImperativeSlider = ({
     vertical,
     className,
     id,
+    'aria-label': label,
     'aria-labelledby': labelledBy,
 }: {
     value: number;
@@ -73,6 +77,7 @@ export const ImperativeSlider = ({
     vertical?: boolean;
     className?: string;
     id?: string;
+    'aria-label'?: string;
     'aria-labelledby'?: string,
 }): JSX.Element => {
     const sliderInput = useRef<HTMLInputElement>(null);
@@ -103,19 +108,23 @@ export const ImperativeSlider = ({
     }, [value, min, max]);
 
     return (
-        <input
-            className={classNames(style.slider, className, vertical && style.vertical)}
-            type="range"
-            min={min}
-            max={max}
-            step={step}
-            value={value}
-            disabled={disabled}
-            onInput={handleInput}
-            ref={sliderInput}
-            list={memoDetents?.length ? dlId : undefined}
-            id={id}
-            aria-labelledby={labelledBy}
-        >{dataList}</input>
+        <>
+            <input
+                className={classNames(style.slider, className, vertical && style.vertical)}
+                type="range"
+                min={min}
+                max={max}
+                step={step}
+                value={value}
+                disabled={disabled}
+                onInput={handleInput}
+                ref={sliderInput}
+                list={memoDetents?.length ? dlId : undefined}
+                id={id}
+                aria-label={label}
+                aria-labelledby={labelledBy}
+            />
+            {dataList}
+        </>
     );
 };

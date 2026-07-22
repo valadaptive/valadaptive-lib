@@ -1,7 +1,7 @@
-import {ComponentChildren} from 'preact';
+import type {ComponentChildren} from 'preact';
 import style from './style.module.css';
 import classNames from 'clsx';
-import {Signal, useSignal} from '@preact/signals';
+import {useSignal, type Signal} from '@preact/signals';
 import {useCallback, useRef} from 'preact/hooks';
 
 const useResizablePanel = (
@@ -13,16 +13,25 @@ const useResizablePanel = (
     resizerRef: (element: HTMLElement | null) => void;
     panelRef: (element: HTMLElement | null) => void;
     panelSize: Signal<string>;
+    resizeBy: (delta: number) => void;
 } => {
+    const isVertical = edge === 'top' || edge === 'bottom';
     const panelSize = useSignal(initialSize);
     const ac = useRef<AbortController>(null);
     const panel = useRef<HTMLElement | null>(null);
     const panelRef = useCallback((element: HTMLElement | null) => {
         panel.current = element;
-    }, [panelSize]);
+    }, []);
+
+    const resizeBy = useCallback((delta: number) => {
+        const rect = panel.current?.getBoundingClientRect();
+        if (!rect) return;
+        const currentSize = isVertical ? rect.height : rect.width;
+        const sizeDelta = edge === 'top' || edge === 'left' ? -delta : delta;
+        panelSize.value = `clamp(${minSize}, ${currentSize + sizeDelta}px, ${maxSize})`;
+    }, [edge, isVertical, maxSize, minSize, panelSize]);
 
     const refCallback = useCallback((element: HTMLElement | null) => {
-        const isVertical = edge === 'top' || edge === 'bottom';
         if (ac.current) {
             ac.current.abort();
             ac.current = null;
@@ -30,15 +39,15 @@ const useResizablePanel = (
         if (!element) return;
         const abortController = new AbortController();
         ac.current = abortController;
-        let onMouseMove: (event: MouseEvent) => void, onMouseUp: (event: MouseEvent) => void;
-        const onMouseDown = (event: MouseEvent) => {
+        let onPointerMove: (event: PointerEvent) => void, onPointerUp: () => void;
+        const onPointerDown = (event: PointerEvent) => {
             event.preventDefault();
             event.stopPropagation();
             const startPos = isVertical ? event.clientY : event.clientX;
             const rect = panel.current?.getBoundingClientRect();
             if (!rect) return;
             const startSize = isVertical ? rect.height : rect.width;
-            onMouseMove = (moveEvent: MouseEvent) => {
+            onPointerMove = (moveEvent: PointerEvent) => {
                 moveEvent.preventDefault();
                 moveEvent.stopPropagation();
                 let delta = (isVertical ? moveEvent.clientY : moveEvent.clientX) - startPos;
@@ -46,25 +55,26 @@ const useResizablePanel = (
                 const newSize = startSize + delta;
                 panelSize.value = `clamp(${minSize}, ${newSize}px, ${maxSize})`;
             };
-            onMouseUp = () => {
-                document.removeEventListener('pointermove', onMouseMove);
-                document.removeEventListener('pointerup', onMouseUp);
-                document.removeEventListener('pointerleave', onMouseUp);
+            onPointerUp = () => {
+                document.removeEventListener('pointermove', onPointerMove);
+                document.removeEventListener('pointerup', onPointerUp);
+                document.removeEventListener('pointerleave', onPointerUp);
             };
-            document.addEventListener('pointermove', onMouseMove, {signal: abortController.signal});
-            document.addEventListener('pointerup', onMouseUp, {signal: abortController.signal});
-            document.addEventListener('pointerleave', onMouseUp, {signal: abortController.signal});
+            document.addEventListener('pointermove', onPointerMove, {signal: abortController.signal});
+            document.addEventListener('pointerup', onPointerUp, {signal: abortController.signal});
+            document.addEventListener('pointerleave', onPointerUp, {signal: abortController.signal});
         };
 
         if (element) {
-            element.addEventListener('pointerdown', onMouseDown, {signal: abortController.signal});
+            element.addEventListener('pointerdown', onPointerDown, {signal: abortController.signal});
         }
-    }, [minSize, maxSize, panelSize, edge]);
+    }, [edge, isVertical, maxSize, minSize, panelSize]);
 
     return {
         resizerRef: refCallback,
         panelRef,
         panelSize,
+        resizeBy,
     };
 };
 
@@ -75,6 +85,7 @@ const ResizablePanel = ({
     edge,
     children,
     className,
+    separatorLabel = 'Resize panel',
 }: {
     initialSize: number | string,
     minSize: number | string,
@@ -82,14 +93,33 @@ const ResizablePanel = ({
     edge: 'top' | 'bottom' | 'left' | 'right',
     children?: ComponentChildren,
     className?: string,
+    separatorLabel?: string,
 }) => {
     const isVertical = edge === 'top' || edge === 'bottom';
-    const {resizerRef, panelRef, panelSize} = useResizablePanel(
+    const {resizerRef, panelRef, panelSize, resizeBy} = useResizablePanel(
         typeof initialSize === 'number' ? `${initialSize}px` : initialSize,
         typeof minSize === 'number' ? `${minSize}px` : minSize,
         typeof maxSize === 'number' ? `${maxSize}px` : maxSize,
         edge,
     );
+
+    const onSeparatorKeyDown = (event: KeyboardEvent) => {
+        let delta = event.key === (isVertical ? 'ArrowUp' : 'ArrowLeft') ? -1 :
+            event.key === (isVertical ? 'ArrowDown' : 'ArrowRight') ? 1 :
+                null;
+        if (delta === null) return;
+
+        if (event.shiftKey) {
+            // Shift key makes the delta coarser
+            delta *= 100;
+        } else if (!event.altKey) {
+            // Alt key makes the delta finer
+            delta *= 10;
+        }
+
+        event.preventDefault();
+        resizeBy(delta);
+    };
 
     return <div
         className={classNames(
@@ -104,7 +134,15 @@ const ResizablePanel = ({
         ref={panelRef}
         style={{[isVertical ? 'height' : 'width']: panelSize.value}}
     >
-        <div className={style.splitter} ref={resizerRef} />
+        <div
+            className={style.splitter}
+            ref={resizerRef}
+            role="separator"
+            aria-label={separatorLabel}
+            aria-orientation={isVertical ? 'horizontal' : 'vertical'}
+            tabIndex={0}
+            onKeyDown={onSeparatorKeyDown}
+        />
         {children}
     </div>;
 };

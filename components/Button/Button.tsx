@@ -7,7 +7,7 @@ export const Button = ({children, className, ...props}: {
     children: ComponentChildren
 } & ButtonHTMLAttributes<HTMLButtonElement>) => {
     return (
-        <button {...props} className={classNames(style.button, className)}>
+        <button type="button" {...props} className={classNames(style.button, className)}>
             <span className={style.buttonContents}>
                 {children}
             </span>
