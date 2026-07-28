@@ -19,6 +19,8 @@
     --interactive-muted: #5f5d59;
     --divider: #373344;
 
+    --highlight: rgb(238 179 49 / 0.25);
+
     --primary: #503f76;
     --primary-hover: #3c3267;
     --primary-active: #2b2652;
@@ -71,5 +73,7 @@
         --interactive-active: #1f1e1d;
         --interactive-muted: #85817c;
         --divider: #afa8a2;
+
+        --highlight: rgb(190 109 42 / 0.35);
     }
 }

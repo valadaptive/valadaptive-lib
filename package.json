@@ -8,6 +8,7 @@
 		"./package.json": "./package.json",
 		"./css/*": "./css/*",
 		"./assets/*": "./assets/*",
+		"./Icon/style.css": "./components/Icon/style.css",
 		"./util/drag-drop": "./util/drag-drop.tsx",
 		"./util/typed-events": "./util/typed-events.js",
 		"./util/*": "./util/*.ts",

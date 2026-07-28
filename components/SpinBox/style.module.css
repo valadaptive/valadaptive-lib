@@ -26,6 +26,7 @@ input[type=number].spinbox-field, input[type=text].spinbox-field {
     margin: 0;
     font-size: 0.9rem;
     font-weight: 600;
+    font-variant-numeric: tabular-nums;
     outline: none;
 
     &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {

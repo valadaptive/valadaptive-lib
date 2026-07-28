@@ -43,7 +43,7 @@ const Loader = ({progress, size = 100, className, label = 'Loading'}: {
                     font-size={`${size * 0.2}px`}
                     font-weight={600}
                     fill="currentColor"
-                    className="tabular-nums"
+                    className={style.progressText}
                 >
                     {Math.round(progress * 100)
                         .toString()

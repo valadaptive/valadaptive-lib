@@ -4,12 +4,15 @@ import classnames from 'clsx';
 import Icon, {IconButton, IconType} from '../Icon/Icon';
 import {useId} from 'preact/hooks';
 
-const Modal = ({onClose, title, icon, children, className}: {
+const Modal = ({onClose, title, icon, children, className, 'aria-label': label}: {
     onClose?: (event: Event) => unknown;
-    title: string;
+    /** If provided, renders a header with the title and close button. Omit if the dialog renders its own header. */
+    title?: string;
     icon?: IconType;
     children: ComponentChildren;
     className?: string;
+    /** Accessible name for the dialog when no `title` is provided. */
+    'aria-label'?: string;
 }): JSX.Element => {
     const titleId = useId();
 
@@ -21,16 +24,19 @@ const Modal = ({onClose, title, icon, children, className}: {
                     className={classnames(style.modal, className)}
                     role="dialog"
                     aria-modal="true"
-                    aria-labelledby={titleId}
+                    aria-labelledby={title !== undefined ? titleId : undefined}
+                    aria-label={title === undefined ? label : undefined}
                 >
-                    <header className={style.modalHeader}>
-                        <div className={style.modalHeaderLeft}>
-                            {icon && <Icon type={icon} title="" size="1em" />}
-                            <span className={style.modalTitle} id={titleId}>{title}</span>
-                        </div>
-                        {onClose &&
-                            <IconButton type="close" title="Close" onClick={onClose} className={style.closeButton} />}
-                    </header>
+                    {title !== undefined &&
+                        <header className={style.modalHeader}>
+                            <div className={style.modalHeaderLeft}>
+                                {icon && <Icon type={icon} title="" size="1em" />}
+                                <span className={style.modalTitle} id={titleId}>{title}</span>
+                            </div>
+                            {onClose &&
+                                <IconButton
+                                    type="close" title="Close" onClick={onClose} className={style.closeButton} />}
+                        </header>}
                     {children}
                 </div>
             </div>

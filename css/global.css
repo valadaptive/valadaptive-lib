@@ -34,15 +34,11 @@
     body, button, input, select {
         font-family: Inter, sans-serif;
         font-feature-settings: 'ss07', 'ss08', 'cv10';
-        line-height: 1.75rem;
-    }
-
-    .tabular-nums {
-        font-feature-settings: 'ss07', 'ss08', 'cv10', 'tnum';
+        line-height: 1.75;
     }
 
     /* Mirrors .textbox in shared.module.css; keep the two in sync. */
-    input[type=text], input[type=password], textarea, select {
+    input[type=text], input[type=number], input[type=password], textarea, select {
         background-color: var(--base-color-tertiary);
         outline: 1px solid var(--interactive-normal);
         border: none;
@@ -68,6 +64,10 @@
         accent-color: var(--interactive-active);
     }
 
+    input[type=number] {
+        font-variant-numeric: tabular-nums;
+    }
+
     textarea {
         resize: none;
         margin: 0;
@@ -75,13 +75,24 @@
     }
 
     a {
-        text-decoration: none;
         color: var(--link);
+        text-decoration: underline;
+        text-decoration-color: var(--link-underline);
+        @supports (color: rgb(from currentColor r g b)) {
+            text-decoration-color: rgb(from currentColor r g b / 50%);
+        }
 
         &:hover {
-            cursor: pointer;
-            text-decoration: underline;
+            text-decoration-thickness: 2px;
         }
+    }
+
+    mark {
+        color: var(--text);
+        background-color: var(--highlight);
+        border-radius: 0.25rem;
+        padding: 0.075rem 0.125rem;
+        margin: -0.075rem -0.125rem;
     }
 
     progress[value] {

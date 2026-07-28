@@ -109,15 +109,15 @@
     }
 }
 
-.icon-arrow-right {
+.icon-arrow-right, .icon-select-arrow-right {
     transform: rotate(-90deg);
 }
 
-.icon-arrow-up {
+.icon-arrow-up, .icon-select-arrow-up {
     transform: rotate(180deg);
 }
 
-.icon-arrow-left {
+.icon-arrow-left, .icon-select-arrow-left {
     transform: rotate(90deg);
 }
 
@@ -131,12 +131,19 @@
     }
 }
 
+.icon-select-arrow-right, .icon-select-arrow-down, .icon-select-arrow-up, .icon-select-arrow-left {
+    mask-image: url('../../assets/icons/select-arrow.svg');
+    transition: transform var(--fade);
+
+    @media (prefers-reduced-motion: reduce) {
+        /* Snap between orientations instead of turning */
+        transition: none;
+    }
+}
+
 /* Keep these written out as plain CSS rules: the bundler inlines each SVG as
  * a URL-encoded data: URI, so one stylesheet holding all of them loads in a
  * single request and compresses well. */
-.icon-arrow-down {
-    mask-image: url('../../assets/icons/arrow-down.svg');
-}
 
 .icon-cancel {
     mask-image: url('../../assets/icons/cancel.svg');

@@ -15,7 +15,7 @@
 
         position: absolute;
         top: calc(50% - 12px);
-        right: 0.325rem;
+        right: 0;
 
         content: '';
         pointer-events: none;

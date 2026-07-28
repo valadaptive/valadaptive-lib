@@ -13,3 +13,7 @@
 .spinner {
     animation: spin 1.5s linear infinite;
 }
+
+.progress-text {
+    font-variant-numeric: tabular-nums;
+}

@@ -258,7 +258,6 @@ export const ImperativeSpinBox = <T extends number | null>({
                 className={classNames(
                     style.spinboxField,
                     !isEditing.value && style.spinboxIdle,
-                    'tabular-nums',
                     disabled && style.disabled,
                 )}
                 type={customDisplay ? 'text' : 'number'}

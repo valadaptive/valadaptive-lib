@@ -148,7 +148,7 @@ export const SearchableCheckboxDropdown = <T extends string | number>({
                     title={selectedItemsText.value ?? undefined}
                 >{buttonText}</span>
                 <Icon
-                    type={isOpen.value ? 'arrow-up' : 'arrow-down'}
+                    type={isOpen.value ? 'select-arrow-up' : 'select-arrow-down'}
                     title=""
                     className={style.searchableDropdownArrow}
                 />
