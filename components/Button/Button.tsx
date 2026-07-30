@@ -4,7 +4,7 @@ import type {AnchorHTMLAttributes, ButtonHTMLAttributes, ComponentChildren} from
 import classNames from 'clsx';
 
 export const Button = ({children, className, ...props}: {
-    children: ComponentChildren
+    children: ComponentChildren;
 } & ButtonHTMLAttributes<HTMLButtonElement>) => {
     return (
         <button type="button" {...props} className={classNames(style.button, className)}>
@@ -16,7 +16,7 @@ export const Button = ({children, className, ...props}: {
 };
 
 export const LinkButton = ({children, className, ...props}: {
-    children: ComponentChildren
+    children: ComponentChildren;
 } & AnchorHTMLAttributes<HTMLAnchorElement>) => {
     return (
         <a {...props} className={classNames(style.button, className)}>

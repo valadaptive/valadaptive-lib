@@ -114,6 +114,7 @@ export default tseslint.config(
             '@stylistic/space-in-parens': ['error'],
             '@stylistic/space-infix-ops': ['error'],
             '@stylistic/space-unary-ops': ['error'],
+            '@stylistic/member-delimiter-style': ['error'],
 
             '@typescript-eslint/no-misused-promises': ['error', {
                 checksVoidReturn: false,

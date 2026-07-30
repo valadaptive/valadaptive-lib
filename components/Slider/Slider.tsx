@@ -28,7 +28,7 @@ export const Slider = ({
     className?: string;
     id?: string;
     'aria-label'?: string;
-    'aria-labelledby'?: string,
+    'aria-labelledby'?: string;
 }): JSX.Element => {
     const handleInput = useCallback((event: TargetedEvent<HTMLInputElement, InputEvent>) => {
         const newValue = Number(event.currentTarget.value);
@@ -78,7 +78,7 @@ export const ImperativeSlider = ({
     className?: string;
     id?: string;
     'aria-label'?: string;
-    'aria-labelledby'?: string,
+    'aria-labelledby'?: string;
 }): JSX.Element => {
     const sliderInput = useRef<HTMLInputElement>(null);
 

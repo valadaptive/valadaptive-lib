@@ -8,18 +8,18 @@ import classNames from 'clsx';
 import {navigateGroup} from '../../util/group-navigation';
 
 export type Tab = {
-    id: string,
-    panel: ComponentChild | (() => ComponentChild) | null,
-    title: ComponentChild,
-    actions?: ComponentChild,
-    disabled?: boolean
+    id: string;
+    panel: ComponentChild | (() => ComponentChild) | null;
+    title: ComponentChild;
+    actions?: ComponentChild;
+    disabled?: boolean;
 };
 
 type TabbedPanelProps<T extends readonly Tab[]> = {
-    tabs: T,
-    activeTabID: Signal<T[number]['id'] | null>,
-    className?: string,
-    auxiliaryItems?: ComponentChild,
+    tabs: T;
+    activeTabID: Signal<T[number]['id'] | null>;
+    className?: string;
+    auxiliaryItems?: ComponentChild;
 };
 
 const isTabDisabled = (tab: Tab): boolean => tab.panel === null || !!tab.disabled;

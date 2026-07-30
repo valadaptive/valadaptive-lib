@@ -1,6 +1,6 @@
 type QueueNode<T> = {
-    value: T,
-    next: QueueNode<T>,
+    value: T;
+    next: QueueNode<T>;
 } | null;
 
 export default class Queue<T> {

@@ -87,13 +87,13 @@ const ResizablePanel = ({
     className,
     separatorLabel = 'Resize panel',
 }: {
-    initialSize: number | string,
-    minSize: number | string,
-    maxSize: number | string,
-    edge: 'top' | 'bottom' | 'left' | 'right',
-    children?: ComponentChildren,
-    className?: string,
-    separatorLabel?: string,
+    initialSize: number | string;
+    minSize: number | string;
+    maxSize: number | string;
+    edge: 'top' | 'bottom' | 'left' | 'right';
+    children?: ComponentChildren;
+    className?: string;
+    separatorLabel?: string;
 }) => {
     const isVertical = edge === 'top' || edge === 'bottom';
     const {resizerRef, panelRef, panelSize, resizeBy} = useResizablePanel(

@@ -1,4 +1,4 @@
-type UndoNode<T> = {prev: UndoNode<T> | null, next: UndoNode<T> | null, value: T};
+type UndoNode<T> = {prev: UndoNode<T> | null; next: UndoNode<T> | null; value: T};
 
 export default class Undoer<T> {
     private readonly idleTime: number;

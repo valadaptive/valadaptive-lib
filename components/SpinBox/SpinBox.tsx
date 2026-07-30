@@ -21,7 +21,7 @@ export const SpinBox = ({
     'aria-labelledby': labelledBy,
 }: {
     value: Signal<number>;
-    customDisplay?: SpinBoxDisplayFuncs,
+    customDisplay?: SpinBoxDisplayFuncs;
     min?: number;
     max?: number;
     sensitivity?: number;
@@ -57,8 +57,8 @@ export const SpinBox = ({
 };
 
 export type SpinBoxDisplayFuncs = {
-    display: (value: number) => string,
-    parse: (value: string) => number | null,
+    display: (value: number) => string;
+    parse: (value: string) => number | null;
 };
 
 type ImperativeSpinBoxProps<T extends number | null> = {

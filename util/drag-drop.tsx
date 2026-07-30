@@ -97,8 +97,8 @@ export const useDraggable = <T,>({
 };
 
 export type Droppable =
-    | {kind: 'drag', value: DragItem<unknown>}
-    | {kind: 'data', value: DataTransferItemList};
+    | {kind: 'drag'; value: DragItem<unknown>}
+    | {kind: 'data'; value: DataTransferItemList};
 
 export type TypedDroppable<T> = Droppable & {value: T};
 
