@@ -2,7 +2,7 @@ import {ReadonlySignal, signal, Signal} from '@preact/signals';
 import {useLayoutEffect, useRef} from 'preact/hooks';
 
 const useMediaQuery = (query: string): ReadonlySignal<boolean> => {
-    const matches = useRef<Signal<boolean>>();
+    const matches = useRef<Signal<boolean>>(null);
     if (!matches.current) {
         matches.current = signal(matchMedia(query).matches);
     }

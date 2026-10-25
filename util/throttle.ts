@@ -39,7 +39,7 @@ export default throttle;
 
 export const useThrottledSignal = <T>(input: Signal<T>, delay: number, debounce = false) => {
     const throttled = useMemo(() => signal(input.peek()), [input]);
-    const updateValueThrottled = useRef<(newValue: T) => void>();
+    const updateValueThrottled = useRef<(newValue: T) => void>(null);
     useLayoutEffect(() => {
         const newThrottleFn = throttle((newValue: T) => {
             throttled.value = newValue;

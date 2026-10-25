@@ -1,15 +1,15 @@
 import style from './style.module.css';
 
 import {Signal, signal} from '@preact/signals';
-import {ComponentChildren, createContext} from 'preact';
-import {MutableRef, useContext, useLayoutEffect, useRef} from 'preact/hooks';
+import {ComponentChildren, createContext, RefObject} from 'preact';
+import {useContext, useLayoutEffect, useRef} from 'preact/hooks';
 
 // "Portal" but without multiple roots. Used to always render floating elements under a separate top-level element.
 // This is a massive hack that will probably come back to bite me someday, but hey, it works.
 
 export const OverlayContext = createContext<{
     /** Stores every child of an <Overlay> which should be rendered under the corresponding {@link OverlayProvider}. */
-    children: MutableRef<ComponentChildren>[];
+    children: RefObject<ComponentChildren>[];
     /** Forces a re-render when incremented. */
     generation: Signal<number>;
 } | undefined>(undefined);
@@ -60,7 +60,7 @@ const OverlayContainerInner = () => {
 };
 
 export const OverlayProvider = ({children}: {children?: ComponentChildren}) => {
-    const ctx = useRef<{children: MutableRef<ComponentChildren>[]; generation: Signal<number>}>();
+    const ctx = useRef<{children: RefObject<ComponentChildren>[]; generation: Signal<number>}>(null);
     if (!ctx.current) {
         ctx.current = {
             children: [],

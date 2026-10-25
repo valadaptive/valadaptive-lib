@@ -180,7 +180,6 @@ export const SearchableCheckboxDropdown = <T extends string | number>({
                                     key={option.id}
                                     className={style.searchableDropdownOption}
                                     onClick={(e) => e.stopPropagation()}
-                                    role="menuitem"
                                 >
                                     <input
                                         type="checkbox"
@@ -188,7 +187,7 @@ export const SearchableCheckboxDropdown = <T extends string | number>({
                                         onChange={() => handleOptionToggle(option.id)}
                                         className={style.searchableDropdownCheckbox}
                                     />
-                                    <span className={style.searchableDropdownOptionText}>
+                                    <span className={style.searchableDropdownOptionText} role="menuitemcheckbox">
                                         {renderOption ? renderOption(option) : option.name}
                                     </span>
                                 </label>

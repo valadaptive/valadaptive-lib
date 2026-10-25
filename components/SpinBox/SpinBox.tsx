@@ -254,37 +254,57 @@ export const ImperativeSpinBox = <T extends number | null>({
                 flexShrink: width ? '0' : undefined,
             }}
         >
-            <input
-                className={classNames(
-                    style.spinboxField,
-                    !isEditing.value && style.spinboxIdle,
-                    disabled && style.disabled,
-                )}
-                type={customDisplay ? 'text' : 'number'}
-                min={min}
-                max={max}
-                step={step}
-                value={value === null ? '' : customDisplay ?
-                    customDisplay.display(value) :
-                    Number(value.toPrecision(12))}
-                placeholder={typeof placeholder === 'undefined' ? '' : customDisplay ?
-                    customDisplay.display(placeholder) :
-                    String(Number(placeholder.toPrecision(12)))}
-                disabled={disabled}
-                onInput={handleInput}
-                id={inputId ?? spinboxId}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onPointerDown={handlePointerDown}
-                onKeyDown={handleKeyDown}
-                aria-label={label}
-                aria-labelledby={labelledBy}
-                role={customDisplay ? 'spinbutton' : undefined}
-                aria-valuenow={customDisplay && value !== null ? value : undefined}
-                aria-valuetext={customDisplay && value !== null ? customDisplay.display(value) : undefined}
-                aria-valuemin={customDisplay ? min : undefined}
-                aria-valuemax={customDisplay ? max : undefined}
-            />
+            {/* augh, Preact 11 strictly validates input types so we have to duplicate a ton of code here */}
+            {customDisplay ?
+                <input
+                    className={classNames(
+                        style.spinboxField,
+                        !isEditing.value && style.spinboxIdle,
+                        disabled && style.disabled,
+                    )}
+                    type="text"
+                    value={value === null ? '' : customDisplay.display(value)}
+                    placeholder={typeof placeholder === 'undefined' ? '' :
+                        customDisplay.display(placeholder)}
+                    disabled={disabled}
+                    onInput={handleInput}
+                    id={inputId ?? spinboxId}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    onPointerDown={handlePointerDown}
+                    onKeyDown={handleKeyDown}
+                    aria-label={label}
+                    aria-labelledby={labelledBy}
+                    role="spinbutton"
+                    aria-valuenow={value !== null ? value : undefined}
+                    aria-valuetext={value !== null ? customDisplay.display(value) : undefined}
+                    aria-valuemin={min}
+                    aria-valuemax={max}
+                /> :
+                <input
+                    className={classNames(
+                        style.spinboxField,
+                        !isEditing.value && style.spinboxIdle,
+                        disabled && style.disabled,
+                    )}
+                    type="number"
+                    min={min}
+                    max={max}
+                    step={step}
+                    value={value === null ? '' : Number(value.toPrecision(12))}
+                    placeholder={typeof placeholder === 'undefined' ? '' : String(Number(placeholder.toPrecision(12)))}
+                    disabled={disabled}
+                    onInput={handleInput}
+                    id={inputId ?? spinboxId}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    onPointerDown={handlePointerDown}
+                    onKeyDown={handleKeyDown}
+                    aria-label={label}
+                    aria-labelledby={labelledBy}
+                    role="spinbutton"
+                />
+            }
             <div className={style.spinboxButtons}>
                 <button
                     onClick={increment}
