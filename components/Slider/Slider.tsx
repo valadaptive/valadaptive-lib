@@ -119,8 +119,6 @@ export const ImperativeSlider = ({
                 disabled={disabled}
                 onInput={handleInput}
                 ref={sliderInput}
-                // https://github.com/preactjs/preact/issues/5330
-                // @ts-expect-error Preact 11 omits the valid list attribute from range input typings.
                 list={memoDetents?.length ? dlId : undefined}
                 id={id}
                 aria-label={label}
