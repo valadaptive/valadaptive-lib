@@ -7,12 +7,12 @@ import classNames from 'clsx';
 
 import Icon, {IconType} from '../Icon/Icon';
 
-export const ToggleIcon = ({type, title, toggled, disabled, innerRef, className}: {
+export const ToggleIcon = ({type, title, toggled, disabled, ref, className}: {
     type: IconType;
     title: string;
     toggled: Signal<boolean>;
     disabled?: boolean;
-    innerRef?: Ref<HTMLButtonElement>;
+    ref?: Ref<HTMLButtonElement>;
     className?: string;
 }) => {
     const handleClick = useCallback(() => {
@@ -32,7 +32,7 @@ export const ToggleIcon = ({type, title, toggled, disabled, innerRef, className}
             aria-pressed={toggled.value}
             title={title}
             aria-label={title}
-            ref={innerRef}
+            ref={ref}
             disabled={disabled}
         >
             <Icon type={type} title={null} />

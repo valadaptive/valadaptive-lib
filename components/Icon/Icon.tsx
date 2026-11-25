@@ -133,7 +133,7 @@ export const IconButton = ({
     onMouseDown,
     disabled,
     className,
-    innerRef,
+    ref,
 }: {
     type: IconType;
     title: string;
@@ -143,7 +143,7 @@ export const IconButton = ({
     onMouseDown?: (event: MouseEvent) => unknown;
     disabled?: boolean;
     className?: string;
-    innerRef?: Ref<HTMLButtonElement>;
+    ref?: Ref<HTMLButtonElement>;
 }): JSX.Element => {
     return (
         <Button
@@ -155,7 +155,7 @@ export const IconButton = ({
             onMouseDown={onMouseDown}
             disabled={disabled}
             className={className}
-            ref={innerRef}
+            ref={ref}
         />
     );
 };
