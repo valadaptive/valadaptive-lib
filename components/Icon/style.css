@@ -24,7 +24,7 @@
         background-color: var(--yellow);
     }
 
-    &.motif-error {
+    &.motif-danger {
         background-color: var(--red);
     }
 

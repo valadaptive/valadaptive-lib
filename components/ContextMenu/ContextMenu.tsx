@@ -107,7 +107,7 @@ export const Menu = ({
                         href: item.href,
                     },
                     item.icon && (
-                        <Icon type={item.icon} title="" />
+                        <Icon type={item.icon} title={null} />
                     ),
                     <span className={style.contextMenuLabel}>{item.label}</span>,
                 ))}

@@ -40,7 +40,8 @@
     font-size: 2rem;
     font-weight: bold;
     display: flex;
-    margin: 1rem 0 1.5rem;
+    margin: 0 0 1.5rem;
+    align-items: center;
 }
 
 .modal-header-left {

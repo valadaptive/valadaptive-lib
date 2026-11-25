@@ -8,7 +8,7 @@ import classNames from 'clsx';
 import FakeImmutable from '../../util/fake-immutable';
 import {Motif} from '../../util/motif';
 
-import Icon, {IconButton} from '../Icon/Icon';
+import Icon, {CloseButton} from '../Icon/Icon';
 import {Overlay} from '../Overlay/Overlay';
 
 type ToastInnerComponent = FunctionComponent<{
@@ -47,7 +47,7 @@ const Toast = ({children, toastRef, closeToast, showCloseButton, timeout, motif 
             iconType = 'warning' as const;
             iconTitle = 'Warning' as const;
             break;
-        case Motif.ERROR:
+        case Motif.DANGER:
             iconType = 'error' as const;
             iconTitle = 'Error' as const;
             break;
@@ -61,7 +61,7 @@ const Toast = ({children, toastRef, closeToast, showCloseButton, timeout, motif 
     }, []);
 
     // Announce toasts to screen readers when they appear; errors interrupt, the rest wait their turn
-    const isUrgent = motif === Motif.ERROR || motif === Motif.WARNING;
+    const isUrgent = motif === Motif.DANGER || motif === Motif.WARNING;
 
     return (
         <div className={style.toastWrapper} ref={toastRef}>
@@ -72,7 +72,7 @@ const Toast = ({children, toastRef, closeToast, showCloseButton, timeout, motif 
                     [style.primary]: motif === Motif.PRIMARY,
                     [style.success]: motif === Motif.SUCCESS,
                     [style.warning]: motif === Motif.WARNING,
-                    [style.error]: motif === Motif.ERROR,
+                    [style.error]: motif === Motif.DANGER,
                 })}
             >
                 <div className={style.toastRow}>
@@ -88,11 +88,7 @@ const Toast = ({children, toastRef, closeToast, showCloseButton, timeout, motif 
                             {title}
                         </div>
                     }
-                    {showCloseButton && <IconButton
-                        type='close'
-                        title='Close'
-                        onClick={closeToast}
-                    />}
+                    {showCloseButton && <CloseButton onClick={closeToast} />}
                 </div>
                 {typeof title === 'undefined' || title === null ?
                     null :
@@ -144,7 +140,7 @@ export const useAddErrorToast = () => {
 
     return useCallback((title: string, error: unknown) => {
         addToast({
-            motif: Motif.ERROR,
+            motif: Motif.DANGER,
             title,
             contents: <>
                 <div className={style.errorMessage}>{String(error)}</div>

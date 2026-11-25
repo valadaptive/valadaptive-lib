@@ -1,7 +1,7 @@
 import type {JSX, ComponentChildren} from 'preact';
 import style from './style.module.css';
 import classnames from 'clsx';
-import Icon, {IconButton, IconType} from '../Icon/Icon';
+import Icon, {CloseButton, IconType} from '../Icon/Icon';
 import {useId} from 'preact/hooks';
 
 const Modal = ({onClose, title, icon, children, className, 'aria-label': label}: {
@@ -30,12 +30,10 @@ const Modal = ({onClose, title, icon, children, className, 'aria-label': label}:
                     {title !== undefined &&
                         <header className={style.modalHeader}>
                             <div className={style.modalHeaderLeft}>
-                                {icon && <Icon type={icon} title="" size="1em" />}
+                                {icon && <Icon type={icon} title={null} size="1em" />}
                                 <span className={style.modalTitle} id={titleId}>{title}</span>
                             </div>
-                            {onClose &&
-                                <IconButton
-                                    type="close" title="Close" onClick={onClose} className={style.closeButton} />}
+                            {onClose && <CloseButton onClick={onClose} className={style.closeButton} />}
                         </header>}
                     {children}
                 </div>

@@ -80,6 +80,16 @@ type ImperativeSpinBoxProps<T extends number | null> = {
     'aria-labelledby'?: string;
 };
 
+const resolveStep = (step: number | 'any', event: KeyboardEvent | MouseEvent) => {
+    let resolvedStep = step === 'any' ? 1 : step;
+    if (event.shiftKey) {
+        resolvedStep *= 10;
+    } else if (event.altKey && step === 'any') {
+        resolvedStep *= 0.1;
+    }
+    return resolvedStep;
+};
+
 export const ImperativeSpinBox = <T extends number | null>({
     value,
     onInput,
@@ -115,14 +125,16 @@ export const ImperativeSpinBox = <T extends number | null>({
         onInput(newValue);
     }, [nullable, customDisplay?.parse, min, max, onInput]);
 
-    const increment = useCallback(() => {
-        let incremented = (currentValue.current ?? min ?? 0) + (step === 'any' ? 1 : step);
+    const increment = useCallback((
+        event: TargetedEvent<HTMLInputElement, KeyboardEvent> | TargetedEvent<HTMLButtonElement, MouseEvent>) => {
+        let incremented = (currentValue.current ?? min ?? 0) + resolveStep(step, event);
         if (typeof max === 'number') incremented = Math.min(incremented, max);
         onInput(incremented);
     }, [currentValue, max, min, step, onInput]);
 
-    const decrement = useCallback(() => {
-        let decremented = (currentValue.current ?? min ?? 0) - (step === 'any' ? 1 : step);
+    const decrement = useCallback((
+        event: TargetedEvent<HTMLInputElement, KeyboardEvent> | TargetedEvent<HTMLButtonElement, MouseEvent>) => {
+        let decremented = (currentValue.current ?? min ?? 0) - resolveStep(step, event);
         if (typeof min === 'number') decremented = Math.max(decremented, min);
         onInput(decremented);
     }, [currentValue, min, step, onInput]);
@@ -186,6 +198,13 @@ export const ImperativeSpinBox = <T extends number | null>({
             } else {
                 computedSensitivity = 1;
             }
+
+            if (event.shiftKey) {
+                computedSensitivity *= 10;
+            } else if (event.altKey) {
+                computedSensitivity *= 0.1;
+            }
+
             const valueDelta = mouseDelta * computedSensitivity;
 
             const newValue = valueStart - valueDelta;
@@ -220,10 +239,10 @@ export const ImperativeSpinBox = <T extends number | null>({
         if (!customDisplay || disabled) return;
         if (event.key === 'ArrowUp') {
             event.preventDefault();
-            increment();
+            increment(event);
         } else if (event.key === 'ArrowDown') {
             event.preventDefault();
-            decrement();
+            decrement(event);
         }
     }, [customDisplay, disabled, increment, decrement]);
 

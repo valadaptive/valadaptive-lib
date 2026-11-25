@@ -120,4 +120,8 @@
             border-bottom-right-radius: 50rem;
         }
     }
+
+    .tabular-nums {
+        font-variant-numeric: tabular-nums;
+    }
 }

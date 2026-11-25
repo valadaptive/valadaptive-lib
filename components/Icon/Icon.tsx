@@ -4,6 +4,7 @@ import type {JSX, Ref} from 'preact';
 import classNames from 'clsx';
 
 import {Motif} from '../../util/motif';
+import {Button} from '../Button/Button';
 
 export type IconType =
     | 'arrow-down'
@@ -71,7 +72,7 @@ const Icon = ({type, title, size, motif, className, clickableStyle}: {
                     'motif-primary': motif === Motif.PRIMARY,
                     'motif-success': motif === Motif.SUCCESS,
                     'motif-warning': motif === Motif.WARNING,
-                    'motif-error': motif === Motif.ERROR,
+                    'motif-danger': motif === Motif.DANGER,
                     'motif-monochrome': motif === Motif.MONOCHROME,
                     'icon-clickable': clickableStyle,
                 },
@@ -88,56 +89,73 @@ const Icon = ({type, title, size, motif, className, clickableStyle}: {
 
 export default Icon;
 
-export const IconButton = ({
-    type,
-    title,
+export const CloseButton = ({
     size,
     onClick,
-    onMouseDown,
     disabled,
-    motif,
+    title,
     className,
-    innerRef,
 }: {
-    type: IconType;
-    title: string;
     size?: string | number;
     onClick?: (event: MouseEvent) => unknown;
-    onMouseDown?: (event: MouseEvent) => unknown;
     disabled?: boolean;
-    motif?: Motif;
+    title?: string;
     className?: string;
-    innerRef?: Ref<HTMLButtonElement>;
 }): JSX.Element => {
     return (
         <button
             type="button"
             className={classNames(
                 'icon-button',
-                {
-                    'icon-disabled': disabled,
-                    'motif-primary': motif === Motif.PRIMARY,
-                    'motif-success': motif === Motif.SUCCESS,
-                    'motif-warning': motif === Motif.WARNING,
-                    'motif-error': motif === Motif.ERROR,
-                    'motif-monochrome': motif === Motif.MONOCHROME,
-                },
+                disabled && 'icon-disabled',
                 className,
             )}
             onClick={disabled ? undefined : onClick}
-            onMouseDown={disabled ? undefined : onMouseDown}
             role="button"
-            title={title}
-            aria-label={title}
+            title={title ?? 'Close'}
+            aria-label={title ?? 'Close'}
             disabled={disabled}
-            ref={innerRef}
         >
             <Icon
-                type={type}
+                type="close"
                 title={null}
                 size={size}
-                motif={motif}
             />
         </button>
+    );
+};
+export const IconButton = ({
+    type,
+    title,
+    compact,
+    motif,
+    onClick,
+    onMouseDown,
+    disabled,
+    className,
+    innerRef,
+}: {
+    type: IconType;
+    title: string;
+    compact?: boolean;
+    motif?: Motif;
+    onClick?: (event: MouseEvent) => unknown;
+    onMouseDown?: (event: MouseEvent) => unknown;
+    disabled?: boolean;
+    className?: string;
+    innerRef?: Ref<HTMLButtonElement>;
+}): JSX.Element => {
+    return (
+        <Button
+            icon={type}
+            title={title}
+            compact={compact}
+            motif={motif}
+            onClick={onClick}
+            onMouseDown={onMouseDown}
+            disabled={disabled}
+            className={className}
+            ref={innerRef}
+        />
     );
 };
