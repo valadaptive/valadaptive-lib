@@ -2,6 +2,23 @@
     display: flex;
     flex-direction: column;
     overflow: auto;
+
+    & .auxiliary-items {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+    }
+
+    &.align-right {
+        & .tabs {
+            flex-direction: row-reverse;
+        }
+
+        & .auxiliary-items {
+            margin-left: 0;
+            margin-right: auto;
+        }
+    }
 }
 
 .tabs {
@@ -75,13 +92,6 @@
     align-items: center;
     margin-left: -0.5rem;
     padding-right: 0.5rem;
-}
-
-.auxiliary-items {
-    display: flex;
-    align-items: center;
-    margin-right: auto;
-    padding-bottom: 0.5rem;
 }
 
 .panel {

@@ -20,11 +20,18 @@ type TabbedPanelProps<T extends readonly Tab[]> = {
     activeTabID: Signal<T[number]['id'] | null>;
     className?: string;
     auxiliaryItems?: ComponentChild;
+    align?: 'left' | 'right';
 };
 
 const isTabDisabled = (tab: Tab): boolean => tab.panel === null || !!tab.disabled;
 
-const TabbedPanel = <T extends readonly Tab[]>({tabs, activeTabID, className, auxiliaryItems}: TabbedPanelProps<T>) => {
+const TabbedPanel = <T extends readonly Tab[]>({
+    tabs,
+    activeTabID,
+    className,
+    auxiliaryItems,
+    align,
+}: TabbedPanelProps<T>) => {
     const idPrefix = useId();
 
     const activeTab = useMemo(() => {
@@ -53,13 +60,8 @@ const TabbedPanel = <T extends readonly Tab[]>({tabs, activeTabID, className, au
     const firstEnabledTabID = tabs.find(tab => !isTabDisabled(tab))?.id ?? null;
 
     return (
-        <div className={classNames(className, style.tabbedPanel)}>
+        <div className={classNames(className, style.tabbedPanel, align === 'right' && style.alignRight)}>
             <div className={style.tabs}>
-                {auxiliaryItems && (
-                    <div className={style.auxiliaryItems}>
-                        {auxiliaryItems}
-                    </div>
-                )}
                 <div className={style.tabList} role="tablist">
                     {tabs.map(tab => {
                         const disabled = isTabDisabled(tab);
@@ -102,6 +104,11 @@ const TabbedPanel = <T extends readonly Tab[]>({tabs, activeTabID, className, au
                         );
                     })}
                 </div>
+                {auxiliaryItems && (
+                    <div className={style.auxiliaryItems}>
+                        {auxiliaryItems}
+                    </div>
+                )}
             </div>
             <div
                 className={style.panel}
